@@ -1,59 +1,50 @@
 import json
-from flask import Flask, render_template, request, redirect, url_for, jsonify, Response
 from flask_cors import CORS
 import os
-from flask_sqlalchemy import SQLAlchemy
+import requests
 import smtplib
 import pandas as pd
+from sqlalchemy import func
 from waitress import serve
 import csv
 import urllib.request
+import time
 import io
 import re
+from io import BytesIO
 import os
-import time
-import sqlite3
 import cv2
 import webbrowser
 import pandas as pd
-import mysql.connector
 from dateutil import parser
 from datetime import date
 from datetime import datetime
 from num2words import num2words
 from normword_dna import dna as me
+from flask_sqlalchemy import SQLAlchemy
 from PyPDF2 import PdfFileWriter, PdfFileReader
 from reportlab.pdfgen.canvas import Canvas
+from sqlalchemy.exc import IntegrityError
+from flask import (
+    Flask,
+    make_response,
+    render_template,
+    request,
+    redirect,
+    send_file,
+    url_for,
+    jsonify,
+    Response,
+)
+
 
 app = Flask(__name__)
 CORS(app)
 db = SQLAlchemy()
-# db.init_app(app)
-mydb = mysql.connector.connect(
-    host="localhost",
-    port="6681",
-    user="BeastBoi",
-    password="@beastboi7DemonGOD@dna7",
-    database="newer",
-)
 
-
-# app.config["SQLALCHEMY_BINDS"] = True
-
-
-# app.config["SQLALCHEMY_DATABASE_URI"] = mydb
 app.config[
     "SQLALCHEMY_DATABASE_URI"
 ] = "postgresql://student_08mv_user:LW1vDrthH1iSsOCPjDfVQK0pOulPDKrG@dpg-cfo5ro94rebfdav246og-a.oregon-postgres.render.com/student_08mv"
-# app.config[
-#     "SQLALCHEMY_DATABASE_URI"
-# ] = "mysql://username:password@hostname:port/database_name?charset=utf8mb4&collation=utf8mb4_unicode_ci"
-
-
-# conn = sqlite3.connect("D:\Manger\instance\manager.db")
-# cursor = conn.cursor()
-# cursor.execute("DELETE FROM co_std_name_sfm WHERE std_enrollment_no = ?", (2001170266,))
-# conn.commit()
 
 db.init_app(app)
 
@@ -88,16 +79,24 @@ class co_std_name_sfm(db.Model):
     std_middlename = db.Column(db.String(100), nullable=False)
 
 
-# class co_students(db.Model):
-#     std_enrollment_no = db.Column(db.Integer, foreign=True)
-#     std_surname = db.Column(db.String(100), nullable=False)
-#     std_firstname = db.Column(db.String(100), nullable=False)
-#     std_middlename = db.Column(db.String(100), nullable=False)
+class co_students(db.Model):
+    std_enrollment_no = db.Column(db.Integer, primary_key=True)
+    registration_no = db.Column(db.String(100), nullable=False)
+    std_Sub_caste = db.Column(db.String(100), nullable=False)
+    std_place_of_birth = db.Column(db.String(100), nullable=False)
+    std_dob_db_co = db.Column(db.Date, nullable=False)
+    std_nationality = db.Column(db.String(40), nullable=False)
+    std_institution_last_attained = db.Column(db.String(250), nullable=False)
+    std_Date_of_Admission = db.Column(db.String(250), nullable=False)
+    std_leaving_date = db.Column(db.String(20), nullable=False)
+    std_lc_no = db.Column(db.String(50), nullable=False)
+    std_flag = db.Column(db.Integer, nullable=False)
 
 
 class std_collage_manager(db.Model):
     std_enrollment_no = db.Column(db.Integer, primary_key=True)
     collage_name_2 = db.Column(db.String(100), nullable=False)
+    std_leavingtemp = db.Column(db.LargeBinary)
 
 
 class user_login(db.Model):
@@ -106,7 +105,9 @@ class user_login(db.Model):
     password = db.Column(db.String(100), nullable=False)
 
 
-mycursor = mydb.cursor()
+class leavingpages(db.Model):
+    std_enrollment_no = db.Column(db.Integer, primary_key=True)
+    std_leaving = db.Column(db.LargeBinary)
 
 
 clear = lambda: os.system("cls")  # to clear previous output from the terminal
@@ -115,135 +116,62 @@ clear = lambda: os.system("cls")  # to clear previous output from the terminal
 def generate_certificate(
     std_enrollment_no, conduct, progress, col_since, reason, remark
 ):
-    # Student registration number
-    registration_no = mydb.cursor()
-    registration_no.execute(
-        "SELECT registration_no FROM co_students WHERE std_enrollment_no = "
-        + std_enrollment_no
-        + ""
-    )
-    for std_regis in registration_no:
-        std_registration_no = ""
-        std_registration_no = std_registration_no.join(std_regis)
+    """Getting Student all data at ones and store it to student_data"""
+    student_data = co_students.query.filter_by(
+        std_enrollment_no=std_enrollment_no
+    ).first()
 
-    # Student L.C No.
+    """Student registration number"""
+    std_registration_no = f"{student_data.registration_no}"
+
+    """Student L.C No."""
     lc_no_count = []
-    lc_no_count.append(len(os.listdir("D:\@BB\Working\Leaving_Certificates")))
-    for std_lc_no in lc_no_count:
-        std_lc_no_c = int(std_lc_no) + 1
-        str(std_lc_no_c)
-        std_lc_no = str(std_lc_no_c)
-        lc_no = mydb.cursor()
-        lc_no.execute(
-            "UPDATE co_students SET std_lc_no = '"
-            + std_lc_no
-            + "' WHERE std_enrollment_no = "
-            + std_enrollment_no
-            + ""
-        )
-        mydb.commit()
+    # lc_no_count.append(len(os.listdir("D:\@BB\Working\Leaving_Certificates")))
+    total_rows = leavingpages.query.count()
+    print(total_rows, "Here 4")
+    std_lc_no = total_rows + 1
+    student_data.std_lc_no = str(std_lc_no)
+    db.session.commit()
 
-    # Student name (last_name first_name middle_name)
-    make_name = mydb.cursor()
-    make_name.execute(
-        "SELECT std_surname, std_firstname, std_middlename FROM co_std_name_sfm WHERE std_enrollment_no = "
-        + std_enrollment_no
-        + ""
-    )
+    """* Student name (last_name first_name middle_name) *"""
+    student = co_std_name_sfm.query.filter_by(
+        std_enrollment_no=std_enrollment_no
+    ).first()
+    std_firstname = f"{student.std_firstname}"
+    std_middlename = f"{student.std_middlename}"
+    std_surname = f"{student.std_surname}"
 
-    for make_name in make_name:
-        this_name = {
-            "Surname": make_name[0],
-            "FirstName": make_name[1],
-            "MiddleName": make_name[2],
-        }
-        std_surname = this_name["Surname"]
-        std_firstname = this_name["FirstName"]
-        std_middlename = this_name["MiddleName"]
+    """Student Race-Caste (Sub-caste)"""
+    stu_sub_caste = f"{student_data.std_Sub_caste}"
 
-    # Student Race-Caste (Sub-caste)
-    sub_caste = mydb.cursor()
-    sub_caste.execute(
-        "SELECT std_Sub_caste FROM co_students WHERE std_enrollment_no = "
-        + std_enrollment_no
-        + ""
-    )
-    for sub_cast in sub_caste:
-        stu_sub_caste = ""
-        stu_sub_caste = stu_sub_caste.join(sub_cast)
+    """Student Place of Birth"""
+    std_place_of_birth = f"{student_data.std_place_of_birth}"
 
-    # Student Place of Birth
-    birth_place = mydb.cursor()
-    birth_place.execute(
-        "SELECT std_place_of_birth FROM co_students WHERE std_enrollment_no = "
-        + std_enrollment_no
-        + ""
-    )
-    for place_of_birth in birth_place:
-        std_place_of_birth = ""
-        std_place_of_birth = std_place_of_birth.join(place_of_birth)
-    # updating birth date od student
-    # dna_dob = input("Enter birth date")
-    # dna_enroll = input("Enter enrollment")
-    # d = parser.parse(dna_dob)
-    # dob=(d.strftime("%Y-%m-%d"))
-    # leaving_date = mydb.cursor()
-    # leaving_date.execute("UPDATE co_students SET std_dob_db_co = '"+dob+"' WHERE std_enrollment_no = "+dna_enroll+"")
-    # mydb.commit()
-
-    # Student Birth-Date Date of birth according to the Christian era in words "+std_enrollment_no+"
-    birth_of = mydb.cursor()
-    birth_of.execute(
-        "SELECT DATE_FORMAT(std_dob_db_co, '%Y-%m-%d')  FROM co_students WHERE std_enrollment_no = "
-        + std_enrollment_no
-        + ""
-    )
+    '''Student Birth-Date Date of birth according to the Christian era in words "+std_enrollment_no+"'''
     try:
-        for of_birth in birth_of:
-            str_for = ""
-            std_born_date = str_for.join(of_birth)
-            d = parser.parse(std_born_date)
-            year = int(d.strftime("%Y"))  # year in number (ex. 2004)
-            year_n = str(year)
-            month = d.strftime("%B")  # month in word (ex. October)
-            month_int = d.strftime("%m")  # month in number (ex. 10)
-            day = d.strftime("%A")  # date in word (ex. Monday )
-            day_int = d.strftime("%d")  # date in number (ex. 25 )
+        std_born_date = f"{student_data.std_dob_db_co}"
+        d = parser.parse(std_born_date)
+        year = int(d.strftime("%Y"))  # year in number (ex. 2004)
+        year_n = str(year)
+        month = d.strftime("%B")  # month in word (ex. October)
+        month_int = d.strftime("%m")  # month in number (ex. 10)
+        day = d.strftime("%A")  # date in word (ex. Monday )
+        day_int = d.strftime("%d")  # date in number (ex. 25 )
+        day_in_word = me.from_user(day_int)
 
-            # word_day = num2words(int(d.strftime("%d"))) # date in word (ex. 25 = Twenty Five )
-            # ignore_ = re.compile(r"(-)")
-            # day_in_word = re.sub(ignore_, ' ',word_day)
-            day_in_word = me.from_user(day_int)
-
-            # here converting int year to words and then ignoring 'and' word from it
-            year = num2words(year)
-            year_re = year.split(" ")
-            ignore = ["and"]
-            year_in_word = " ".join([t for t in year_re if not t in ignore])
+        """here converting int year to words and then ignoring 'and' word from it"""
+        year = num2words(year)
+        year_re = year.split(" ")
+        ignore = ["and"]
+        year_in_word = " ".join([t for t in year_re if not t in ignore])
     except Exception:
         print("No date found")
 
-    # Student Nationality
-    nationality = mydb.cursor()
-    nationality.execute(
-        "SELECT std_nationality FROM co_students WHERE std_enrollment_no = "
-        + std_enrollment_no
-        + ""
-    )
-    for nationality_of_std in nationality:
-        std_nationality = ""
-        std_nationality = std_nationality.join(nationality_of_std)
+    """Student Nationality"""
+    std_nationality = f"{student_data.std_nationality}"
 
-    # Student Institution last attained
-    last_institution = mydb.cursor()
-    last_institution.execute(
-        "SELECT std_institution_last_attained FROM co_students WHERE std_enrollment_no = "
-        + std_enrollment_no
-        + ""
-    )
-    for last_institution_of_std in last_institution:
-        std_last = ""
-        std_last = std_last.join(last_institution_of_std)
+    """Student Institution last attained"""
+    std_last = f"{student_data.std_institution_last_attained}"
     i = 40
     std_line_next = ""
     std_line_on = ""
@@ -259,64 +187,29 @@ def generate_certificate(
         except:
             pass
 
-    # Student Date of Admission
-    admission_date = mydb.cursor()
-    admission_date.execute(
-        "SELECT std_Date_of_Admission FROM co_students WHERE std_enrollment_no = "
-        + std_enrollment_no
-        + ""
-    )
-    for admission_date_of_std in admission_date:
-        std_Date_of_Admission = ""
-        std_Date_of_Admission = std_Date_of_Admission.join(admission_date_of_std)
+    """Student Date of Admission"""
+    std_Date_of_Admission = f"{student_data.std_Date_of_Admission}"
 
-    # Student Enrollment No
-    enrollment_no = mydb.cursor()
-    enrollment_no.execute(
-        "SELECT std_enrollment_no FROM co_students WHERE std_enrollment_no = "
-        + std_enrollment_no
-        + ""
-    )
-    enrollment_no_of_std = [
-        tuple(map(str, enrollment_no_of_std)) for enrollment_no_of_std in enrollment_no
-    ]
-    for std_enrollment_no in enrollment_no_of_std:
-        std_enrollment_no = "".join(std_enrollment_no)
+    """Student Enrollment No"""
+    std_enrollment_no = str(f"{student_data.std_enrollment_no}")
 
-    # Student Date of Leaving institute
+    """Student Date of Leaving institute"""
     today = date.today()
     std_leaving_date = today.strftime("%B %d, %Y")
+    student_data.std_leaving_date = str(std_leaving_date)
+    db.session.commit()
 
-    leaving_date = mydb.cursor()
-    leaving_date.execute(
-        "UPDATE co_students SET std_leaving_date = '"
-        + std_leaving_date
-        + "' WHERE std_enrollment_no = "
-        + std_enrollment_no
-        + ""
-    )
-    mydb.commit()
-
-    # # Student Flag
+    """Student Flag"""
     flag_no = "1"
+    student_data.std_flag = str(flag_no)
+    db.session.commit()
 
-    flag_check_mate = mydb.cursor()
-    flag_check_mate.execute(
-        "UPDATE co_students SET std_flag = "
-        + flag_no
-        + " WHERE std_enrollment_no = "
-        + std_enrollment_no
-        + ""
-    )
-    mydb.commit()
-
+    # input_pdf = PdfFileReader(open("D:\\Manger\\static\\pdf\\pagetemp.pdf","rb",))
+    """dna&beastBoi1025"""
+    on_ref = std_collage_manager.query.filter_by(std_enrollment_no=1025).first()
+    pdf_temp = BytesIO(on_ref.std_leavingtemp)
     page_to_merge = 0  # Refers to the First page of PDF
-    input_pdf = PdfFileReader(
-        open(
-            "D:\\Manger\\static\\pdf\\pagetemp.pdf",
-            "rb",
-        )
-    )
+    input_pdf = PdfFileReader(pdf_temp)
     page_count = input_pdf.getNumPages()
     inputpdf_page_to_be_merged = input_pdf.getPage(page_to_merge)
 
@@ -328,9 +221,10 @@ def generate_certificate(
             inputpdf_page_to_be_merged.mediaBox.getHeight(),
         ),
     )
+    std_lc_no = str(std_lc_no)
 
     # Here i am writing the certificate pdf
-    c.drawString(173, 683, "Registration no.")  # registration no.
+    c.drawString(173, 683, std_registration_no)  # registration no.
     c.drawString(450, 683, std_lc_no)  # l.c. no.
 
     c.drawString(270, 640, std_surname)  # Surname
@@ -388,40 +282,41 @@ def generate_certificate(
             Page_in_pdf = input_pdf.getPage(PAGE)
             output.addPage(Page_in_pdf)
 
-    outputStream = open(
-        "D:\\@BB\\Working\\Leaving_Certificates\\lc_of_" + std_enrollment_no + ".pdf",
-        "wb",
+    # outputStream = open(
+    #     "D:\\@BB\\Working\\Leaving_Certificates\\lc_of_" + std_enrollment_no + ".pdf",
+    #     "wb",
+    # )
+    print("Here 1")
+    pdf_Bytes = io.BytesIO()
+    output.write(pdf_Bytes)
+    sl = leavingpages(
+        std_enrollment_no=std_enrollment_no,
+        std_leaving=pdf_Bytes.getvalue(),
     )
-    output.write(outputStream)
-    outputStream.close()
+    print("Here 2")
+    db.session.add(sl)
+    db.session.commit()
+    print("Here 3")
+    # output.write(outputStream)
+    # outputStream.close()
+
+    # leaving_ref = leavingpages.query.filter_by(std_enrollment_no=std_enrollment_no).first()
+    # l_pdf = BytesIO(leaving_ref.std_leaving)
+    # leaving_pdf=BytesIO(l_pdf)
 
 
 def check_for_flag(std_enrollment_no, conduct, progress, col_since, reason, remark):
-    checker_cursor = mydb.cursor()
-    checker_cursor.execute(
-        "SELECT std_enrollment_no FROM co_students WHERE std_enrollment_no = "
-        + std_enrollment_no
-        + ""
-    )
-    if len(checker_cursor.fetchall()) > 0:
-        flag_checker_cursor = mydb.cursor()
-        flag_checker_cursor.execute(
-            "SELECT std_flag FROM co_students WHERE std_enrollment_no = "
-            + std_enrollment_no
-            + ""
-        )
-        flag_checker_of_std = [
-            tuple(map(str, enrollment_no_of_std))
-            for enrollment_no_of_std in flag_checker_cursor
-        ]
-        for std_flag_no in flag_checker_of_std:
-            std_final_flag = "".join(std_flag_no)
-            if std_final_flag == "0":
-                check_for_validation(
-                    std_enrollment_no, conduct, progress, col_since, reason, remark
-                )
-            else:
-                already()
+    checker_cursor = co_students.query.filter_by(
+        std_enrollment_no=std_enrollment_no
+    ).first()
+    if checker_cursor is not None:
+        std_final_flag = str(f"{checker_cursor.std_flag}")
+        if std_final_flag == "0":
+            check_for_validation(
+                std_enrollment_no, conduct, progress, col_since, reason, remark
+            )
+        else:
+            already()
     else:
         print("Entered Enroll no. is Invalid")
         no_no()
@@ -430,18 +325,21 @@ def check_for_flag(std_enrollment_no, conduct, progress, col_since, reason, rema
 def check_for_validation(
     std_enrollment_no, conduct, progress, col_since, reason, remark
 ):
-    checker_cursor = mydb.cursor()
-    checker_cursor.execute(
-        "SELECT std_enrollment_no FROM co_students WHERE std_enrollment_no = "
-        + std_enrollment_no
-        + ""
-    )
-    if len(checker_cursor.fetchall()) > 0:
+    checker_cursor = co_students.query.filter_by(
+        std_enrollment_no=std_enrollment_no.replace(" ", "")
+    ).first()
+    if checker_cursor is not None:
+        # From here pointer is going to the *generate_certificate()* function which is responsible for retrieving and writing a new leaving paper and coming back.# From here pointer is going to the *generate_certificate()* function which is responsible for retrieving and writing a new leaving paper and coming back.
         generate_certificate(
             std_enrollment_no, conduct, progress, col_since, reason, remark
-        )  # From here pointer is going to the *generate_certificate()* function which is responsible for retrieving and writing a new leaving paper and coming back.
+        )
 
         print("\rL.C Generated Successfully")
+        # leaving_ref = leavingpages.query.filter_by(
+        #     std_enrollment_no=std_enrollment_no.replace(" ", "")
+        # ).first()
+
+        # leaving_pdf = io.BytesIO(leaving_ref.std_leaving)
 
         time.sleep(1)
         url = (
@@ -466,27 +364,23 @@ def check_for_validation(
                     print(
                         "Error in opening your browser. But don't worry your paper has already saved to your local disk. if you want you may go and open it manually."
                     )
-
         except Exception:
             pass
-
         done()
-
     else:
         print("\rEntered Enroll no. is Invalid")
-
         cant()
 
 
-# For recreating a lc
+"""For recreating a lc"""
+
+
 def reset_flag_to_0_for_new(std_enrollment_no):
-    my_db_flag_reset_q = mydb.cursor()
-    my_db_flag_reset_q.execute(
-        "UPDATE co_students SET std_flag = 0 WHERE std_enrollment_no = "
-        + std_enrollment_no
-        + ""
-    )
-    mydb.commit()
+    flagger = co_students.query.filter_by(
+        std_enrollment_no=std_enrollment_no.replace(" ", "")
+    ).first()
+    flagger.std_flag = 0
+    db.session.commit()
     print("\rYou can generate new LC for : " + std_enrollment_no + "", end="")
     time.sleep(1)
     clear()
@@ -549,40 +443,6 @@ def get_random_enroll(std_enrollment_no, conduct, progress, col_since, reason, r
     return bb
 
 
-# @app.route("/form", methods=["GET", "POST"])
-# def form():
-#     if request.method == "POST":
-#         name = request.form["name"]
-#         email = request.form["email"]
-#         phone_no = request.form["phone_no"]
-#         birth_date = request.form["birth_date"]
-#         enrollment_no = request.form["enrollment_no"]
-#         gender = request.form["gender"]
-#         address = request.form["address"]
-#         country = request.form["country"]
-#         city = request.form["city"]
-
-#         postal_code = request.form["postal_code"]
-
-#         data = std_manager(
-#             name=name,
-#             email=email,
-#             phone_no=phone_no,
-#             birth_date=birth_date,
-#             enrollment_no=enrollment_no,
-#             gender=gender,
-#             address=address,
-#             country=country,
-#             city=city,
-#
-#             postal_code=postal_code,
-#         )
-#         db.session.add(data)
-#         db.session.commit()
-
-#     return render_template("forms.html")
-
-
 @app.route("/process-entry-form", methods=["POST"])
 def process_entry_form():
     enrollment = request.form["enroll-number-2"]
@@ -621,37 +481,7 @@ def process_entry_form():
     birth_place = request.form["birth-place"]
     birth_date = request.form["birth-date"]
 
-    # Call your Python function here, passing in the form data
-    # result = get_random_enroll(enrollment, conduct, prog, col_since, reason, remark)
-
-    # Call your Python function here, passing in the form data
-
-    # result = print(
-    #     enrollment.replace(" ", ""),
-    #     register_num,
-    #     email,
-    #     sname,
-    #     fname,
-    #     mname,
-    #     mo_no,
-    #     country,
-    #     postcode,
-    #     address,
-    #     state,
-    #     sub_dist,
-    #     district,
-    #     allotment,
-    #     man_entry,
-    #     marry,
-    #     gender,
-    #     age,
-    #     school_Last_2,
-    #     birth_date,
-    #     sub_cast,
-    #     birth_place,
-    #     collage_name_2,
-    #     st_admission,
-    # )
+    """result = print(enrollment.replace(" ", ""),register_num,email,sname,fname,mname,mo_no,country,postcode,address,state,sub_dist,district,allotment,man_entry,marry,gender,age,school_Last_2,birth_date,sub_cast,birth_place,collage_name_2,st_admission,)"""
 
     data = std_manager(
         std_enrollment_no=int(enrollment.replace(" ", "")),
@@ -676,41 +506,50 @@ def process_entry_form():
         postal_code=postcode.replace(" ", ""),
     )
 
+    leaving_data = co_students(
+        std_enrollment_no=int(enrollment.replace(" ", "")),
+        registration_no=register_num,
+        std_Sub_caste=sub_cast,
+        std_place_of_birth=birth_place,
+        std_dob_db_co=birth_date,
+        std_nationality=country,
+        std_institution_last_attained=school_Last_2,
+        std_Date_of_Admission=st_admission,
+    )
+
     data_name = co_std_name_sfm(
         std_enrollment_no=int(enrollment.replace(" ", "")),
         std_surname=sname,
         std_firstname=fname,
         std_middlename=mname,
     )
+
     db.session.add(data)
     db.session.add(data_name)
-
+    db.session.add(leaving_data)
+    # try:
     db.session.commit()
+    # except IntegrityError as e:
+    #     pass
 
-    # Create a response object with the result
-    # response = jsonify({"result": result})
-
-    # # # Return the response object
-    # # return render_template("index.html")
-
-    # redirect the user back to the previous page
+    """redirect the user back to the previous page"""
     return "", 204
 
 
 @app.route("/check-username/<username>")
 def check_username(username):
-    # conn = sqlite3.connect("D:\Manger\instance\manager.db")
-    # cursor = conn.cursor()
-    # cursor.execute(
-    #     "SELECT * FROM std_manager WHERE std_enrollment_no = ?",
-    #     (int(username.replace(" ", "")),),
-    # )
     result = std_manager.query.filter_by(
         std_enrollment_no=username.replace(" ", "")
     ).first()
-    # conn.close()
+    result1 = co_std_name_sfm.query.filter_by(
+        std_enrollment_no=username.replace(" ", "")
+    ).first()
 
-    if result is not None:
+    result2 = co_students.query.filter_by(
+        std_enrollment_no=username.replace(" ", "")
+    ).first()
+
+    if result and result1 and result2 is not None:
         return jsonify({"exists": True})
     else:
         return jsonify({"exists": False})
@@ -725,19 +564,25 @@ def process_form():
     reason = request.form["s-leaving-reason"]
     remark = request.form["s-remark"]
     message = request.form["message"]
-    # Call your Python function here, passing in the form data
-    # result = get_random_enroll(enrollment, conduct, prog, col_since, reason, remark)
 
-    # Call your Python function here, passing in the form data
-    result = get_random_enroll(
+    """Call your Python function here, passing in the form data"""
+    get_random_enroll(
         enrollment.replace(" ", ""), conduct, prog, col_since, reason, remark
     )
+    """Return the nothing in the response object"""
+    leaving_ref = leavingpages.query.filter_by(
+        std_enrollment_no=enrollment.replace(" ", "")
+    ).first()
 
-    # Create a response object with the result
-    response = jsonify({"result": result})
-
-    # Return the response object
-    return "", 204
+    leaving_pdf = BytesIO(leaving_ref.std_leaving)
+    response = make_response(leaving_pdf.getvalue())
+    response.headers.set("Content-Type", "application/pdf")
+    response.headers.set(
+        "Content-Disposition",
+        "attachment",
+        filename="lc_of" + enrollment.replace(" ", "") + ".pdf",
+    )
+    return response
 
 
 @app.route("/data")
@@ -769,18 +614,6 @@ def login():
             error = "Invalid Credentials. Please try again."
 
     return render_template("login.html")
-
-
-def my_function(enrollment, conduct, prog, col_since, reason, remark, message):
-    print(
-        type(enrollment.replace(" ", "")),
-        conduct,
-        prog,
-        col_since,
-        reason,
-        remark,
-        message,
-    )
 
 
 @app.route("/datatable")
