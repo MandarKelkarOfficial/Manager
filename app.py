@@ -515,6 +515,7 @@ def process_entry_form():
         std_nationality=country,
         std_institution_last_attained=school_Last_2,
         std_Date_of_Admission=st_admission,
+        std_flag=0,
     )
 
     data_name = co_std_name_sfm(
