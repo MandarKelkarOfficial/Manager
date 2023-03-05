@@ -496,19 +496,19 @@ def process_form():
         enrollment.replace(" ", ""), conduct, prog, col_since, reason, remark
     )
     """Return the nothing in the response object"""
-    # leaving_ref = leavingpages.query.filter_by(
-    #     std_enrollment_no=enrollment.replace(" ", "")
-    # ).first()
+    leaving_ref = leavingpages.query.filter_by(
+        std_enrollment_no=enrollment.replace(" ", "")
+    ).first()
 
-    # leaving_pdf = BytesIO(leaving_ref.std_leaving)
-    # response = make_response(leaving_pdf.getvalue())
-    # response.headers.set("Content-Type", "application/pdf")
-    # response.headers.set(
-    #     "Content-Disposition",
-    #     "attachment",
-    #     filename="lc_of" + enrollment.replace(" ", "") + ".pdf",
-    # )
-    # return response
+    leaving_pdf = BytesIO(leaving_ref.std_leaving)
+    response = make_response(leaving_pdf.getvalue())
+    response.headers.set("Content-Type", "application/pdf")
+    response.headers.set(
+        "Content-Disposition",
+        "attachment",
+        filename="lc_of" + enrollment.replace(" ", "") + ".pdf",
+    )
+    return response
 
 
 @app.route("/data")
