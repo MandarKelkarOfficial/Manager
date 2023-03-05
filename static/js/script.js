@@ -332,6 +332,25 @@ $('#post-number-2').on('input', function (e) {
     e.target.value = !x[2] ? x[1] : x[1] + ' ' + x[2] + (x[3] ? ' ' + x[3] : '');
 });
 
+const authorize = $('.authorize')
+
+$('#regenerating').on('change', function () {
+    if ($(this).is(":checked")) {
+        $('#re-autho').addClass('authorize')
+    }
+})
+$('.autho-close-button').on('click', function () {
+    if ($('#re-by-m').val() == 're@1025') {
+        $('#re-by-m').val("")
+        $('#re-autho').removeClass('authorize')
+    }
+    else {
+        $('#re-by-m').text("")
+        $('#re-autho').removeClass('authorize')
+        $("#regenerating").prop("checked", false);
+    }
+})
+
 $(document).ready(function () {
     const usernameInput = $('#enroll-number-2');
     const usernameError = $('#username-error');

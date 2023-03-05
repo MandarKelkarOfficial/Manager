@@ -125,10 +125,7 @@ def generate_certificate(
     std_registration_no = f"{student_data.registration_no}"
 
     """Student L.C No."""
-    lc_no_count = []
-    # lc_no_count.append(len(os.listdir("D:\@BB\Working\Leaving_Certificates")))
     total_rows = leavingpages.query.count()
-    print(total_rows, "Here 4")
     std_lc_no = total_rows + 1
     student_data.std_lc_no = str(std_lc_no)
     db.session.commit()
@@ -165,7 +162,8 @@ def generate_certificate(
         ignore = ["and"]
         year_in_word = " ".join([t for t in year_re if not t in ignore])
     except Exception:
-        print("No date found")
+        pass
+        # print("No date found")
 
     """Student Nationality"""
     std_nationality = f"{student_data.std_nationality}"
@@ -204,7 +202,6 @@ def generate_certificate(
     student_data.std_flag = str(flag_no)
     db.session.commit()
 
-    # input_pdf = PdfFileReader(open("D:\\Manger\\static\\pdf\\pagetemp.pdf","rb",))
     """dna&beastBoi1025"""
     on_ref = std_collage_manager.query.filter_by(std_enrollment_no=1025).first()
     pdf_temp = BytesIO(on_ref.std_leavingtemp)
@@ -282,27 +279,17 @@ def generate_certificate(
             Page_in_pdf = input_pdf.getPage(PAGE)
             output.addPage(Page_in_pdf)
 
-    # outputStream = open(
-    #     "D:\\@BB\\Working\\Leaving_Certificates\\lc_of_" + std_enrollment_no + ".pdf",
-    #     "wb",
-    # )
-    print("Here 1")
+    # print("Here 1")
     pdf_Bytes = io.BytesIO()
     output.write(pdf_Bytes)
     sl = leavingpages(
         std_enrollment_no=std_enrollment_no,
         std_leaving=pdf_Bytes.getvalue(),
     )
-    print("Here 2")
+    # print("Here 2")
     db.session.add(sl)
     db.session.commit()
-    print("Here 3")
-    # output.write(outputStream)
-    # outputStream.close()
-
-    # leaving_ref = leavingpages.query.filter_by(std_enrollment_no=std_enrollment_no).first()
-    # l_pdf = BytesIO(leaving_ref.std_leaving)
-    # leaving_pdf=BytesIO(l_pdf)
+    # print("Here 3")
 
 
 def check_for_flag(std_enrollment_no, conduct, progress, col_since, reason, remark):
@@ -318,7 +305,7 @@ def check_for_flag(std_enrollment_no, conduct, progress, col_since, reason, rema
         else:
             already()
     else:
-        print("Entered Enroll no. is Invalid")
+        # print("Entered Enroll no. is Invalid")
         no_no()
 
 
@@ -329,63 +316,63 @@ def check_for_validation(
         std_enrollment_no=std_enrollment_no.replace(" ", "")
     ).first()
     if checker_cursor is not None:
-        # From here pointer is going to the *generate_certificate()* function which is responsible for retrieving and writing a new leaving paper and coming back.# From here pointer is going to the *generate_certificate()* function which is responsible for retrieving and writing a new leaving paper and coming back.
+        """From here pointer is going to the *generate_certificate()* function which is responsible for retrieving and writing a new leaving paper and coming back.# From here pointer is going to the *generate_certificate()* function which is responsible for retrieving and writing a new leaving paper and coming back."""
         generate_certificate(
             std_enrollment_no, conduct, progress, col_since, reason, remark
         )
 
-        print("\rL.C Generated Successfully")
+        # print("\rL.C Generated Successfully")
         # leaving_ref = leavingpages.query.filter_by(
         #     std_enrollment_no=std_enrollment_no.replace(" ", "")
         # ).first()
 
         # leaving_pdf = io.BytesIO(leaving_ref.std_leaving)
 
-        time.sleep(1)
-        url = (
-            "file:///D:/@BB/Working/Leaving_Certificates/lc_of_"
-            + std_enrollment_no
-            + ".pdf"
-        )  # specifying file path
+        # time.sleep(1)
+        # url = (
+        #     "file:///D:/@BB/Working/Leaving_Certificates/lc_of_"
+        #     + std_enrollment_no
+        #     + ".pdf"
+        # )  # specifying file path
 
-        try:
-            chrome_path = "C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe %s"  # specifying webbrowser
-            bb_x_dna_wb = webbrowser.get(chrome_path)
-            # bb_x_dna_wb.open(url)
-            dna = bb_x_dna_wb.open(url)
-            if dna == False:
-                # print('Error opening browser')
-                chrome_path = "C:/Program Files/Google/Chrome/Application/chrome.exe %s"  # specifying another webbrowser
-                bb_x_dna_wb = webbrowser.get(chrome_path)
-                bb = bb_x_dna_wb.open(url)
-                if bb == True:
-                    pass
-                else:
-                    print(
-                        "Error in opening your browser. But don't worry your paper has already saved to your local disk. if you want you may go and open it manually."
-                    )
-        except Exception:
-            pass
-        done()
+        # try:
+        #     chrome_path = "C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe %s"  # specifying webbrowser
+        #     bb_x_dna_wb = webbrowser.get(chrome_path)
+        #     # bb_x_dna_wb.open(url)
+        #     dna = bb_x_dna_wb.open(url)
+        #     if dna == False:
+        #         # print('Error opening browser')
+        #         chrome_path = "C:/Program Files/Google/Chrome/Application/chrome.exe %s"  # specifying another webbrowser
+        #         bb_x_dna_wb = webbrowser.get(chrome_path)
+        #         bb = bb_x_dna_wb.open(url)
+        #         if bb == True:
+        #             pass
+        #         else:
+        #             print(
+        #                 "Error in opening your browser. But don't worry your paper has already saved to your local disk. if you want you may go and open it manually."
+        #             )
+        # except Exception:
+        #     pass
+        # done()
     else:
-        print("\rEntered Enroll no. is Invalid")
+        # print("\rEntered Enroll no. is Invalid")
         cant()
 
 
 """For recreating a lc"""
 
 
-def reset_flag_to_0_for_new(std_enrollment_no):
-    flagger = co_students.query.filter_by(
-        std_enrollment_no=std_enrollment_no.replace(" ", "")
-    ).first()
-    flagger.std_flag = 0
-    db.session.commit()
-    print("\rYou can generate new LC for : " + std_enrollment_no + "", end="")
-    time.sleep(1)
-    clear()
-    do()
-    return bb
+# def reset_flag_to_0_for_new(std_enrollment_no):
+#     flagger = co_students.query.filter_by(
+#         std_enrollment_no=std_enrollment_no.replace(" ", "")
+#     ).first()
+#     flagger.std_flag = 0
+#     db.session.commit()
+#     print("\rYou can generate new LC for : " + std_enrollment_no + "", end="")
+#     time.sleep(1)
+#     clear()
+#     do()
+#     return bb
 
 
 def done():
@@ -415,7 +402,7 @@ def no_no():
 def our_son(dna):
     global bb
     bb = dna
-    print(bb)
+    # print(bb)
     return bb
 
 
@@ -565,6 +552,16 @@ def process_form():
     reason = request.form["s-leaving-reason"]
     remark = request.form["s-remark"]
     message = request.form["message"]
+    regenerating = request.form["regenerating"]
+    if regenerating == "yes":
+        flagger_ex = co_students.query.filter_by(
+            std_enrollment_no=enrollment.replace(" ", "")
+        ).first()
+        flagger_ex.std_flag = str(0)
+        cl_page = leavingpages.query.get(enrollment.replace(" ", ""))
+        if cl_page:
+            db.session.delete(cl_page)
+        db.session.commit()
 
     """Call your Python function here, passing in the form data"""
     get_random_enroll(

@@ -11,20 +11,12 @@
   <link rel="icon" type="image/png" sizes="16x16" href="../../assets/favicon/favicon-16x16.png">
   <link rel="manifest" href="../../assets/favicon/site.webmanifest">
 
-
-  <!-- <link rel="stylesheet" href="css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/contact-form.css">
-  <link rel="stylesheet" href="css/leaving-form.css">
-  <link rel="stylesheet" href="css/tooltip.css"> -->
   <!-- Boxicons CDN Link -->
   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="path/to/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-
-
 
   <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
@@ -33,8 +25,6 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/dataentry-form.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/tooltip.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/overlay.css') }}">
-
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
@@ -994,12 +984,20 @@
                 <textarea class="form-control" id="message" name="message"></textarea>
               </div>
               <div>
-                <label class="form-label" for="subscribe">Subscribe?</label>
-                <input class="" id="subscribe" name="subscribe" type="checkbox" />
+                <label class="form-label" for="regenerating">Regenerating?</label>
+                <input class="" id="regenerating" name="regenerating" value="yes" type="checkbox" />
               </div>
               <div class="bb-form-btn-d">
                 <button class="form-button" type="submit">Submit</button>
                 <button class="form-button" type="reset">Clear</button>
+              </div>
+              <div class="pop-up" id="re-autho">
+                <div class="pop-up-content">
+                  <p class="auth">!Authority</p>
+                  <h5>You, Generating Again!</h5>
+                  <input class="form-control" id="re-by-m" placeholder="Enter password" type="text" />
+                  <input type="button" class="close-button form-button autho-close-button" value="Okay" />
+                </div>
               </div>
             </form>
           </div>
