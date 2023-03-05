@@ -1,13 +1,11 @@
 import json
 from flask_cors import CORS
 import os
-import requests
 import smtplib
 import pandas as pd
 from sqlalchemy import func
 from waitress import serve
 import csv
-import urllib.request
 import time
 import io
 import re
@@ -303,10 +301,12 @@ def check_for_flag(std_enrollment_no, conduct, progress, col_since, reason, rema
                 std_enrollment_no, conduct, progress, col_since, reason, remark
             )
         else:
-            already()
+            # already()
+            pass
     else:
         # print("Entered Enroll no. is Invalid")
-        no_no()
+        # no_no()
+        pass
 
 
 def check_for_validation(
@@ -356,78 +356,47 @@ def check_for_validation(
         # done()
     else:
         # print("\rEntered Enroll no. is Invalid")
-        cant()
+        # cant()
+        pass
 
 
 """For recreating a lc"""
 
-
-# def reset_flag_to_0_for_new(std_enrollment_no):
-#     flagger = co_students.query.filter_by(
-#         std_enrollment_no=std_enrollment_no.replace(" ", "")
-#     ).first()
-#     flagger.std_flag = 0
-#     db.session.commit()
-#     print("\rYou can generate new LC for : " + std_enrollment_no + "", end="")
-#     time.sleep(1)
-#     clear()
-#     do()
-#     return bb
+# def done():
+#     our_son("done")
 
 
-def done():
-    our_son("done")
+# def js_alert():
+#     our_son("js_alert")
 
 
-def js_alert():
-    our_son("js_alert")
+# def already():
+#     our_son("already")
 
 
-def already():
-    our_son("already")
+# def do():
+#     our_son("do_enter_again")
 
 
-def do():
-    our_son("do_enter_again")
+# def cant():
+#     our_son("invalid_check_for_val")
 
 
-def cant():
-    our_son("invalid_check_for_val")
+# def no_no():
+#     our_son("invalid_flag")
 
 
-def no_no():
-    our_son("invalid_flag")
-
-
-def our_son(dna):
-    global bb
-    bb = dna
-    # print(bb)
-    return bb
-
-
-# @eel.expose
-# def main():
-# std_enrollment_no = input("Enter student Enroll no. : ")
-# check_for_flag(std_enrollment_no)
-# me = my_finally
-# return  me
-
-# main()
-# @eel.expose
-# def main(my_finally):
-# std_enrollment_no = input("Enter student Enroll no. : ")
-# check_for_flag(std_enrollment_no)
-# me = my_finally
-# return  me
-
-# main()
+# def our_son(dna):
+#     global bb
+#     bb = dna
+# print(bb)
+# return bb
 
 
 def get_random_enroll(std_enrollment_no, conduct, progress, col_since, reason, remark):
     # eel.prompt_alerts("Demon's God DNA X BB")
     check_for_flag(std_enrollment_no, conduct, progress, col_since, reason, remark)
-    return bb
+    # return bb
 
 
 @app.route("/process-entry-form", methods=["POST"])
