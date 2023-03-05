@@ -277,17 +277,14 @@ def generate_certificate(
             Page_in_pdf = input_pdf.getPage(PAGE)
             output.addPage(Page_in_pdf)
 
-    # print("Here 1")
     pdf_Bytes = io.BytesIO()
     output.write(pdf_Bytes)
     sl = leavingpages(
         std_enrollment_no=std_enrollment_no,
         std_leaving=pdf_Bytes.getvalue(),
     )
-    # print("Here 2")
     db.session.add(sl)
     db.session.commit()
-    # print("Here 3")
 
 
 def check_for_flag(std_enrollment_no, conduct, progress, col_since, reason, remark):
@@ -320,44 +317,6 @@ def check_for_validation(
         generate_certificate(
             std_enrollment_no, conduct, progress, col_since, reason, remark
         )
-
-        # print("\rL.C Generated Successfully")
-        # leaving_ref = leavingpages.query.filter_by(
-        #     std_enrollment_no=std_enrollment_no.replace(" ", "")
-        # ).first()
-
-        # leaving_pdf = io.BytesIO(leaving_ref.std_leaving)
-
-        # time.sleep(1)
-        # url = (
-        #     "file:///D:/@BB/Working/Leaving_Certificates/lc_of_"
-        #     + std_enrollment_no
-        #     + ".pdf"
-        # )  # specifying file path
-
-        # try:
-        #     chrome_path = "C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe %s"  # specifying webbrowser
-        #     bb_x_dna_wb = webbrowser.get(chrome_path)
-        #     # bb_x_dna_wb.open(url)
-        #     dna = bb_x_dna_wb.open(url)
-        #     if dna == False:
-        #         # print('Error opening browser')
-        #         chrome_path = "C:/Program Files/Google/Chrome/Application/chrome.exe %s"  # specifying another webbrowser
-        #         bb_x_dna_wb = webbrowser.get(chrome_path)
-        #         bb = bb_x_dna_wb.open(url)
-        #         if bb == True:
-        #             pass
-        #         else:
-        #             print(
-        #                 "Error in opening your browser. But don't worry your paper has already saved to your local disk. if you want you may go and open it manually."
-        #             )
-        # except Exception:
-        #     pass
-        # done()
-    else:
-        # print("\rEntered Enroll no. is Invalid")
-        # cant()
-        pass
 
 
 """For recreating a lc"""
@@ -537,19 +496,19 @@ def process_form():
         enrollment.replace(" ", ""), conduct, prog, col_since, reason, remark
     )
     """Return the nothing in the response object"""
-    leaving_ref = leavingpages.query.filter_by(
-        std_enrollment_no=enrollment.replace(" ", "")
-    ).first()
+    # leaving_ref = leavingpages.query.filter_by(
+    #     std_enrollment_no=enrollment.replace(" ", "")
+    # ).first()
 
-    leaving_pdf = BytesIO(leaving_ref.std_leaving)
-    response = make_response(leaving_pdf.getvalue())
-    response.headers.set("Content-Type", "application/pdf")
-    response.headers.set(
-        "Content-Disposition",
-        "attachment",
-        filename="lc_of" + enrollment.replace(" ", "") + ".pdf",
-    )
-    return response
+    # leaving_pdf = BytesIO(leaving_ref.std_leaving)
+    # response = make_response(leaving_pdf.getvalue())
+    # response.headers.set("Content-Type", "application/pdf")
+    # response.headers.set(
+    #     "Content-Disposition",
+    #     "attachment",
+    #     filename="lc_of" + enrollment.replace(" ", "") + ".pdf",
+    # )
+    # return response
 
 
 @app.route("/data")
