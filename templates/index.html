@@ -62,14 +62,14 @@
           <a href="{{ url_for('datatable') }}" target="data_frame">
             <i class="fas fa-chart-simple" aria-hidden="true"></i>
             <span class="links_name">Data Tables</span>
-            <!-- <span class="tooltip">Patients</span> -->
+            <!-- <span class="tooltip">Students</span> -->
           </a>
         </li>
         <li title="Other Tables" class="other-table-toggler" value="o-table">
           <a href="#">
             <i class="fas fa-table" aria-hidden="true"></i>
             <span class="links_name">Other Tables</span>
-            <!-- <span class="tooltip">Patients</span> -->
+            <!-- <span class="tooltip">Students</span> -->
           </a>
         </li>
 
@@ -220,7 +220,7 @@
             <div class="sales-details box">
 
               <ul class="details">
-                <li class="topic">Patients</li>
+                <li class="topic">Students</li>
                 <li><a href="#">Alex Doe</a></li>
                 <li><a href="#">David Mart</a></li>
                 <li><a href="#">Roe Parter</a></li>
@@ -256,7 +256,7 @@
                 <li><a href="#">Male</a></li>
               </ul>
               <ul class="details">
-                <li class="topic">Diagonsed</li>
+                <li class="topic">Progress</li>
                 <li><a href="#">CBC</a></li>
                 <li><a href="#">CDX X-Ray</a></li>
                 <li><a href="#">CRPCS</a></li>
@@ -290,7 +290,7 @@
             <div class="sales-details box">
 
               <ul class="details">
-                <li class="topic">Patients</li>
+                <li class="topic">Students</li>
                 <li><a href="#">Alex Doe</a></li>
                 <li><a href="#">David Mart</a></li>
                 <li><a href="#">Roe Parter</a></li>
@@ -326,7 +326,7 @@
                 <li><a href="#">Male</a></li>
               </ul>
               <ul class="details">
-                <li class="topic">Diagonsed</li>
+                <li class="topic">Progress</li>
                 <li><a href="#">CBC</a></li>
                 <li><a href="#">CDX X-Ray</a></li>
                 <li><a href="#">CRPCS</a></li>
@@ -867,15 +867,8 @@
                 <input class="form-control" id="enroll-number" name="enroll-number" tabindex="3"
                   placeholder="555 555 5555" pattern="[0-9]{3} [0-9]{3} [0-9]{4}" type="tel" required=""
                   maxlength="12" />
+                <span id="enroll-error" class="trans-error">Already Generated</span>
               </div>
-              <!-- <div>
-                <label class="form-label" for="email">Email</label>
-                <input class="form-control" id="email" name="email" type="email" required />
-              </div>
-              <div>
-                <label class="form-label" for="mobile-num">Mobile</label>
-                <input class="form-control" id="mobile-n" name="mobile-num" type="text" required />
-              </div> -->
               <div class="wrapper-f-div" name="wrapper-f-div">
                 <div class="wrapper-f-inner-div">
                   <label class="form-label" for="email">Email</label>
@@ -892,39 +885,16 @@
                       required="" maxlength="14" />
                   </div>
                 </div>
-                <!-- <div class="input-group">
-                  <span class="input-group-addon"><span class="fa fa-phone"></span></span>
-                  <input type="tel" name="phone" id="phone" placeholder="(555) 555-5555" autocomplete="tel"
-                    maxlength="10" class="form-control" pattern="[(][0-9]{3}[)] [0-9]{3}-[0-9]{4}" required="">
-                </div> -->
               </div>
-              <!-- <div>
-                <label class="form-label" for="subject">Subject</label>
-                <select class="form-control select-st" id="subject" name="subject" required>
-                  <option value="" class="op-head" selected disabled>Choose a Subject</option>
-                  <optgroup label="Option Group">
-                    <option value="subject-one">Bug subject One</option>
-                    <option value="subject-two">Bug subject Two</option>
-                    <option value="subject-three">Bug subject Three</option>
-                  </optgroup>
-                  <option value="subject-four">Bug subject Four</option>
-                  <option value="subject-five">Bug subject Five</option>
-                  <option value="subject-six">Bug subject Six</option>
-                </select>
-              </div> -->
+
               <div class="wrapper-f-div" name="wrapper-f-div">
                 <div class="wrapper-f-inner-di">
                   <label class="form-label" for="prog">Progress</label>
                   <select class="form-control select-st" id="s-progress" name="prog" required>
                     <option value="" class="op-head" selected disabled>Select Progress</option>
-                    <!-- <optgroup label=""> -->
                     <option value="Satisfactory">Satisfactory</option>
                     <option value="Good">Good</option>
                     <option value="Excellent">Excellent</option>
-                    <!-- </optgroup> -->
-                    <!-- <option value="subject-four">Bug subject Four</option>
-                  <option value="subject-five">Bug subject Five</option>
-                  <option value="subject-six">Bug subject Six</option> -->
                   </select>
                 </div>
                 <div class="wrapper-f-inner-di">
@@ -988,7 +958,7 @@
                 <input class="" id="regenerating" name="regenerating" value="yes" type="checkbox" />
               </div>
               <div class="bb-form-btn-d">
-                <button class="form-button" type="submit">Submit</button>
+                <button class="form-button" id="leaving-submit" type="submit">Submit</button>
                 <button class="form-button" type="reset">Clear</button>
               </div>
               <div class="pop-up" id="re-autho">

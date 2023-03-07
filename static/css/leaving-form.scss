@@ -194,6 +194,27 @@ button {
             margin: 0;
         }
     }
+
+    div {
+        input#enroll-number {
+            position: relative;
+            z-index: 6;
+        }
+        .trans-error {
+            position: absolute;
+            z-index: 2;
+            opacity: 0;
+            padding: 5px;
+            color: #ff000070;
+            transform: translateY(-2em);
+            transition: all 0.3s ease;
+        }
+
+        .trans-error.error-translateY {
+            opacity: 1;
+            transform: translateY(-0.5em);
+        }
+    }
 }
 
 /*
@@ -293,6 +314,15 @@ button {
         background: #82a6f2;
     }
 }
+@media (min-width: 1352px) {
+    .sidebar.active ~ .home-section .home-content .col-17 .bg-secondary .leaving-e-form .pop-up {
+        height: 93%;
+    }
+    .sidebar ~ .home-section .home-content .col-17 .bg-secondary .leaving-e-form .pop-up {
+        height: 93%;
+    }
+}
+
 // $form-border-color: #c3c3c3;
 // $form-border-radius: 5px;
 // $form-transition-duration: 0.5s;

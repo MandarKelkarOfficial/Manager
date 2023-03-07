@@ -337,17 +337,21 @@ const authorize = $('.authorize')
 $('#regenerating').on('change', function () {
     if ($(this).is(":checked")) {
         $('#re-autho').addClass('authorize')
+        $("#leaving-submit").prop("disabled", true);
     }
 })
 $('.autho-close-button').on('click', function () {
     if ($('#re-by-m').val() == 're@1025') {
         $('#re-by-m').val("")
         $('#re-autho').removeClass('authorize')
+        leavingError.removeClass('error-translateY')
+        $("#leaving-submit").prop("disabled", false);
     }
     else {
         $('#re-by-m').text("")
         $('#re-autho').removeClass('authorize')
         $("#regenerating").prop("checked", false);
+        $("#leaving-submit").prop("disabled", true);
     }
 })
 
@@ -372,5 +376,26 @@ $(document).ready(function () {
             }
         }
     });
-});
 
+    const enrollInput = $('#enroll-number');
+    const leavingError = $('#enroll-error');
+    enrollInput.on('input', async () => {
+        const enroll = enrollInput.val();
+        if (!enroll) {
+            leavingError.html('Username is required');
+        } else {
+            const response = await fetch(`/check-enroll/${enroll}`);
+            const data = await response.json();
+            if (data.exists) {
+                // alert('God 1')
+                // usernameError.html('Already exists');
+                leavingError.addClass('error-translateY')
+                $("#leaving-submit").prop("disabled", true);
+            } else {
+                leavingError.removeClass('error-translateY')
+                $("#leaving-submit").prop("disabled", false);
+                // usernameError.html('');
+            }
+        }
+    });
+});

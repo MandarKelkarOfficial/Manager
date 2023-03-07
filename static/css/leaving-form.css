@@ -159,6 +159,23 @@ button {
 .leaving-e-form--sent > div ~ div {
   margin: 0;
 }
+.leaving-e-form div input#enroll-number {
+  position: relative;
+  z-index: 6;
+}
+.leaving-e-form div .trans-error {
+  position: absolute;
+  z-index: 2;
+  opacity: 0;
+  padding: 5px;
+  color: rgba(255, 0, 0, 0.4392156863);
+  transform: translateY(-2em);
+  transition: all 0.3s ease;
+}
+.leaving-e-form div .trans-error.error-translateY {
+  opacity: 1;
+  transform: translateY(-0.5em);
+}
 
 /*
     Button
@@ -255,4 +272,13 @@ button {
 }
 .sidebar.darker ~ .home-section .home-content .col-17 .bg-secondary .leaving-e-form .pop-up .pop-up-content input.close-button.form-button {
   background: #82a6f2;
+}
+
+@media (min-width: 1352px) {
+  .sidebar.active ~ .home-section .home-content .col-17 .bg-secondary .leaving-e-form .pop-up {
+    height: 93%;
+  }
+  .sidebar ~ .home-section .home-content .col-17 .bg-secondary .leaving-e-form .pop-up {
+    height: 93%;
+  }
 }/*# sourceMappingURL=leaving-form.css.map */

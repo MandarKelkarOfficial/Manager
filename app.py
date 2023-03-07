@@ -27,6 +27,7 @@ from flask import (
     Flask,
     make_response,
     render_template,
+    render_template_string,
     request,
     redirect,
     send_file,
@@ -298,11 +299,8 @@ def check_for_flag(std_enrollment_no, conduct, progress, col_since, reason, rema
                 std_enrollment_no, conduct, progress, col_since, reason, remark
             )
         else:
-            # already()
             pass
     else:
-        # print("Entered Enroll no. is Invalid")
-        # no_no()
         pass
 
 
@@ -317,39 +315,6 @@ def check_for_validation(
         generate_certificate(
             std_enrollment_no, conduct, progress, col_since, reason, remark
         )
-
-
-"""For recreating a lc"""
-
-# def done():
-#     our_son("done")
-
-
-# def js_alert():
-#     our_son("js_alert")
-
-
-# def already():
-#     our_son("already")
-
-
-# def do():
-#     our_son("do_enter_again")
-
-
-# def cant():
-#     our_son("invalid_check_for_val")
-
-
-# def no_no():
-#     our_son("invalid_flag")
-
-
-# def our_son(dna):
-#     global bb
-#     bb = dna
-# print(bb)
-# return bb
 
 
 def get_random_enroll(std_enrollment_no, conduct, progress, col_since, reason, remark):
@@ -471,6 +436,15 @@ def check_username(username):
         return jsonify({"exists": False})
 
 
+@app.route("/check-enroll/<enroll>")
+def check_enroll(enroll):
+    cl_page = leavingpages.query.get(enroll.replace(" ", ""))
+    if cl_page is not None:
+        return jsonify({"exists": True})
+    else:
+        return jsonify({"exists": False})
+
+
 @app.route("/process-form", methods=["POST"])
 def process_form():
     enrollment = request.form["enroll-number"]
@@ -480,7 +454,9 @@ def process_form():
     reason = request.form["s-leaving-reason"]
     remark = request.form["s-remark"]
     message = request.form["message"]
-    regenerating = request.form["regenerating"]
+    regenerating = None
+    regenerating = request.form.get("regenerating")
+
     if regenerating == "yes":
         flagger_ex = co_students.query.filter_by(
             std_enrollment_no=enrollment.replace(" ", "")
@@ -519,13 +495,6 @@ def get_data():
     return jsonify(data)
 
 
-# Define a route for the index page
-@app.route("/index")
-def index():
-    return render_template("index.html")
-
-
-# Define a route for the login page
 @app.route("/", methods=["GET", "POST"])
 def login():
     error = None
@@ -535,11 +504,15 @@ def login():
 
         user = user_login.query.filter_by(username=username, password=password).first()
         if user is not None:
-            return redirect(url_for("index"))
+            return render_template("index.html")
         else:
             error = "Invalid Credentials. Please try again."
-
     return render_template("login.html")
+
+
+@app.route("/index")
+def index():
+    return render_template("index.html")
 
 
 @app.route("/datatable")

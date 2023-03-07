@@ -26,21 +26,3 @@ signupBtn.addEventListener('click', (e) => {
         }
     });
 });
-
-// $('.submit-btn').on('click', function (e) {
-//     if ($(this).hasClass('signup-user')) {
-//         alert('Signup')
-//     }
-//     else if ($(this).hasClass('login-user')) {
-//         var name = $('.u-name-in').val();
-//         var pass = $('.u-pass-in').val();
-//         if (name == 'dnabb' && pass == '@dnabb07') {
-//             alert('Welcome master')
-//             // location.replace('..//templates/index.html')
-//         }
-//         else {
-//             alert('Please enter valid password and u-name')
-//             return false;
-//         }
-//     }
-// })
