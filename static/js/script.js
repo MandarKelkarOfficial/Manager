@@ -341,6 +341,7 @@ $('#regenerating').on('change', function () {
     }
 })
 $('.autho-close-button').on('click', function () {
+    const leavingError = $('#enroll-error');
     if ($('#re-by-m').val() == 're@1025') {
         $('#re-by-m').val("")
         $('#re-autho').removeClass('authorize')
@@ -361,18 +362,20 @@ $(document).ready(function () {
 
     usernameInput.on('input', async () => {
         const username = usernameInput.val();
-        if (!username) {
-            usernameError.html('Username is required');
-        } else {
-            const response = await fetch(`/check-username/${username}`);
-            const data = await response.json();
-            if (data.exists) {
-                // alert('God 1')
-                // usernameError.html('Already exists');
-                usernameError.addClass('error-translateY')
+        if (username.length > 11) {
+            if (!username) {
+                usernameError.html('Username is required');
             } else {
-                usernameError.removeClass('error-translateY')
-                // usernameError.html('');
+                const response = await fetch(`/check-username/${username}`);
+                const data = await response.json();
+                if (data.exists) {
+                    // alert('God 1')
+                    // usernameError.html('Already exists');
+                    usernameError.addClass('error-translateY')
+                } else {
+                    usernameError.removeClass('error-translateY')
+                    // usernameError.html('');
+                }
             }
         }
     });
@@ -381,20 +384,24 @@ $(document).ready(function () {
     const leavingError = $('#enroll-error');
     enrollInput.on('input', async () => {
         const enroll = enrollInput.val();
-        if (!enroll) {
-            leavingError.html('Username is required');
-        } else {
-            const response = await fetch(`/check-enroll/${enroll}`);
-            const data = await response.json();
-            if (data.exists) {
-                // alert('God 1')
-                // usernameError.html('Already exists');
-                leavingError.addClass('error-translateY')
-                $("#leaving-submit").prop("disabled", true);
+        if (enroll.length > 11) {
+            if (!enroll) {
+                leavingError.html('Username is required');
             } else {
-                leavingError.removeClass('error-translateY')
-                $("#leaving-submit").prop("disabled", false);
-                // usernameError.html('');
+                const response = await fetch(`/check-enroll/${enroll}`);
+                const data = await response.json();
+                if (data.exists) {
+                    // alert('God 1')
+                    // usernameError.html('Already exists');
+                    leavingError.addClass('error-translateY')
+                    $("#regenerating").prop("checked", false);
+                    $("#leaving-submit").prop("disabled", true);
+                } else {
+                    leavingError.removeClass('error-translateY')
+                    $("#leaving-submit").prop("disabled", false);
+                    $("#regenerating").prop("checked", false);
+                    // usernameError.html('');
+                }
             }
         }
     });
