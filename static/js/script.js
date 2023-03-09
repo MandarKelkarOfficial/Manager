@@ -339,6 +339,9 @@ $('#regenerating').on('change', function () {
         $('#re-autho').addClass('authorize')
         $("#leaving-submit").prop("disabled", true);
     }
+    else {
+        $("#leaving-submit").prop("disabled", false);
+    }
 })
 $('.autho-close-button').on('click', function () {
     const leavingError = $('#enroll-error');
