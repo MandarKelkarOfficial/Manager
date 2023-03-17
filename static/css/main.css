@@ -461,6 +461,10 @@ nav .profile-details i {
   justify-content: space-between;
 }
 
+.recent-sales.my-cal {
+  padding: 0px !important;
+}
+
 .sales-boxes .box .title {
   font-size: 24px;
   font-weight: 500;

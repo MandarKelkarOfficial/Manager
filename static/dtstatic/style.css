@@ -172,7 +172,7 @@ div.material-table .table-title {
 div.material-table table tr td {
   padding: 0 0 0 56px;
   height: 48px;
-  font-size: 13px;
+  font-size: 16px;
   color: rgba(0, 0, 0, 0.87);
   border-bottom: solid 1px #DDDDDD;
   white-space: nowrap;
@@ -194,7 +194,7 @@ div.material-table table tr {
 }
 
 div.material-table table th {
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 600;
   color: #757575;
   cursor: pointer;
@@ -269,9 +269,20 @@ div.material-table table tr .salaryG {
   color: purple;
 }
 
-div.material-table table tbody tr .compData:hover .fa-xmark::before {
-  content: "\f00c";
-  color: green;
+div.material-table table tbody tr .compData:hover .fa-circle-info::before {
+  /* content: "\f00c"; */
+  /* color: #04b27d !important; */
+}
+
+
+.compData input[type="radio"] {
+  position: relative !important;
+  left: 0 !important;
+  width: 0;
+}
+
+.row #admin .material-table #datatable_wrapper .datatable .finalbody .odd .compData input[type=radio]:checked~i.fa-solid.fa-circle-info {
+  color: #04b27d !important;
 }
 
 @media (max-width: 767px) {
@@ -455,4 +466,8 @@ div.material-table .table-footer .dataTables_info::-webkit-scrollbar {
 div.material-table .table-footer .dataTables_length::-webkit-scrollbar {
   width: 0px;
   height: 0px;
+}
+
+i.fa-solid.fa-circle-info {
+  color: #d0d0d0 !important;
 }

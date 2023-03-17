@@ -7,7 +7,7 @@
             "Age":18,
             "StartDate":"2011/04/25",
             "Salary":"$320,800",
-            "compData":"<i class='fas fa-xmark' ></i></i><span class='tooltip'>Notifying</span>"
+            "compData":"<i class='fa-solid fa-circle-info'></i></i><span class='tooltip'>Notifying</span>"
         },
         {
             "Name":"Hell Fire",
@@ -16,7 +16,7 @@
             "Age":18,
             "StartDate":"2011/04/25",
             "Salary":"$320,800",
-            "compData":"<i class='fas fa-xmark' ></i></i><span class='tooltip'>Notifying</span>"
+            "compData":"<i class='fa-solid fa-circle-info'></i></i><span class='tooltip'>Notifying</span>"
         },
         {
             "Name":"Garrett Winters",
@@ -25,7 +25,7 @@
             "Age":63,
             "StartDate":"2011/07/25",
             "Salary":"$170,750",
-            "compData":"<i class='fas fa-xmark' ></i></i><span class='tooltip'>Notifying</span>"
+            "compData":"<i class='fa-solid fa-circle-info'></i></i><span class='tooltip'>Notifying</span>"
         },
         {
             "Name":"Ashton Cox",
@@ -34,7 +34,7 @@
             "Age":66,
             "StartDate":"2009/01/12",
             "Salary":"$86,000",
-            "compData":"<i class='fas fa-xmark' ></i><span class='tooltip'>Notifying</span>"
+            "compData":"<i class='fa-solid fa-circle-info'></i></i><span class='tooltip'>Notifying</span>"
         },
         {
             "Name":"Hell Five",
@@ -43,7 +43,7 @@
             "Age":18,
             "StartDate":"2011/04/25",
             "Salary":"$320,800",
-            "compData":"<i class='fas fa-xmark' ></i></i><span class='tooltip'>Notifying</span>"
+            "compData":"<i class='fa-solid fa-circle-info'></i></i><span class='tooltip'>Notifying</span>"
         },
         {
             "Name":"Eerie Harddy",
@@ -52,7 +52,7 @@
             "Age":"18",
             "StartDate":"2023/10/25",
             "Salary":"$98,000",
-            "compData":"<i class='fas fa-xmark' ></i></i><span class='tooltip'>Notifying</span>"
+            "compData":"<i c<i class='fa-solid fa-circle-info'></i></i><span class='tooltip'>Notifying</span>"
         },
         {
             "Name":"Dna Harddy",
@@ -61,7 +61,7 @@
             "Age":"18",
             "StartDate":"2023/10/25",
             "Salary":"$98,000",
-            "compData":"<i class='fas fa-xmark' ></i></i><span class='tooltip'>Notifying</span>"
+            "compData":"<i c<i class='fa-solid fa-circle-info'></i></i><span class='tooltip'>Notifying</span>"
         },
         {
             "Name":"Divya Acharekar",
@@ -70,7 +70,7 @@
             "Age":"18",
             "StartDate":"202402/11",
             "Salary":"$89,000",
-            "compData":"<i class='fas fa-xmark' ></i></i><span class='tooltip'>Notifying</span>"
+            "compData":"<i c<i class='fa-solid fa-circle-info'></i></i><span class='tooltip'>Notifying</span>"
         },
         {
             "Name":"Beast Boi",
@@ -79,7 +79,7 @@
             "Age":"18",
             "StartDate":"2023/02/11",
             "Salary":"$12,23,000",
-            "compData":"<i class='fas fa-xmark' ></i></i><span class='tooltip'>Notifying</span>"
+            "compData":"<i class='fa-solid fa-circle-info'></i></i><span class='tooltip'>Notifying</span>"
         },
         {
             "Name":"God",
@@ -88,7 +88,7 @@
             "Age":"000",
             "StartDate":"0000/00/00",
             "Salary":"$infinite",
-            "compData":"<i class='fas fa-xmark' ></i></i><span class='tooltip'>Notifying</span>"
+            "compData":"<i class='fa-solid fa-circle-info'></i></i><span class='tooltip'>Notifying</span>"
         },
         {
             "Name":"Done",
@@ -97,7 +97,7 @@
             "Age":"18",
             "StartDate":"Done",
             "Salary":"Done",
-            "compData":"<i class='fas fa-xmark' ></i></i><span class='tooltip'>Notifying</span>"
+            "compData":"<i class='fa-solid fa-circle-info'></i></i><span class='tooltip'>Notifying</span>"
         },
         {
             "Name":"Gray Hill",
@@ -106,7 +106,7 @@
             "Age":"19",
             "StartDate":"2020/01/01",
             "Salary":"$34,000",
-            "compData":"<i class='fas fa-xmark' ></i></i><span class='tooltip'>Notifying</span>"
+            "compData":"<i class='fa-solid fa-circle-info'></i></i><span class='tooltip'>Notifying</span>"
         },
         {
             "Name":"Sam Drue",
@@ -115,7 +115,7 @@
             "Age":"18",
             "StartDate":"2020/02/02",
             "Salary":"$70,000",
-            "compData":"<i class='fas fa-xmark' ></i></i><span class='tooltip'>Notifying</span>"
+            "compData":"<i class='fa-solid fa-circle-info'></i></i><span class='tooltip'>Notifying</span>"
         },
         {
             "Name":"Sita Aai",
@@ -124,7 +124,7 @@
             "Age":"40",
             "StartDate":"2020/02/02",
             "Salary":"$770,000",
-            "compData":"<i class='fas fa-xmark' ></i></i><span class='tooltip'>Notifying</span>"
+            "compData":"<i class='fa-solid fa-circle-info'></i></i><span class='tooltip'>Notifying</span>"
         },
         {
             "Name":"Ram Baba",
@@ -133,7 +133,7 @@
             "Age":"40",
             "StartDate":"2020/02/02",
             "Salary":"$770,000",
-            "compData":"<i class='fas fa-xmark' ></i></i><span class='tooltip'>Notifying</span>"
+            "compData":"<i class='fa-solid fa-circle-info'></i></i><span class='tooltip'>Notifying</span>"
         }
     ]
 }
