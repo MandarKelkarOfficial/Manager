@@ -508,8 +508,25 @@ def login():
         user = user_login.query.filter_by(username=username, password=password).first()
         if user is not None:
             total_stu_ = std_manager.query.count()
-            print("Here ", total_stu_)
-            return render_template("index.html", total_stu_=total_stu_)
+            total_comp_ = std_manager.query.filter_by(std_department=64).count()
+            total_civil_ = std_manager.query.filter_by(std_department=32).count()
+            total_electo_ = std_manager.query.filter_by(std_department=16).count()
+            total_electri_ = std_manager.query.filter_by(std_department=8).count()
+            total_food_ = std_manager.query.filter_by(std_department=4).count()
+            total_mech_ = std_manager.query.filter_by(std_department=2).count()
+            total_leaves_ = leavingpages.query.count()
+            print(total_comp_, type(total_civil_))
+            return render_template(
+                "index.html",
+                total_stu_=total_stu_,
+                total_comp_=total_comp_,
+                total_civil_=total_civil_,
+                total_electo_=total_electo_,
+                total_electri_=total_electri_,
+                total_food_=total_food_,
+                total_mech_=total_mech_,
+                total_leaves_=total_leaves_,
+            )
         else:
             error = "Invalid Credentials. Please try again."
     return render_template("login.html")

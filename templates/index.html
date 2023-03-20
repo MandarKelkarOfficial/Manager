@@ -35,7 +35,7 @@
 
   <div class="edaf"></div>
   <div class="container side" id="blur">
-    <div class="sidebar active">
+    <div class="sidebar active darker">
       <div class="logo-details">
         <i clss="bx bx-donate-heart"> <img src="{{ url_for('static', filename='img/trian.png') }}" alt="" srcset=""></i>
         <span class="logo_name">Manager</span>
@@ -185,8 +185,8 @@
           </div>
           <div class="box">
             <div class="right-side">
-              <div class="box-topic">Total Out</div>
-              <div class="number">23</div>
+              <div class="box-topic">Computer Dept</div>
+              <div class="number">{{ total_comp_ }}</div>
               <div class="indicator">
                 <i class="bx bx-up-arrow-alt"></i>
                 <span class="text">For Today</span>
@@ -196,8 +196,8 @@
           </div>
           <div class="box">
             <div class="right-side">
-              <div class="box-topic">Total In-Out</div>
-              <div class="number">246</div>
+              <div class="box-topic">Civil Dept</div>
+              <div class="number">{{ total_civil_ }}</div>
               <div class="indicator">
                 <i class="bx bx-up-arrow-alt"></i>
                 <span class="text">For Today</span>
@@ -207,8 +207,8 @@
           </div>
           <div class="box">
             <div class="right-side">
-              <div class="box-topic">Total Later</div>
-              <div class="number">1000</div>
+              <div class="box-topic">Electronic Dept</div>
+              <div class="number">{{ total_electo_ }}</div>
               <div class="indicator">
                 <i class="bx bx-down-arrow-alt down"></i>
                 <span class="text">This week total</span>
@@ -221,8 +221,8 @@
         <div class="overview-boxes">
           <div class="box">
             <div class="right-side">
-              <div class="box-topic">Total Student</div>
-              <div class="number">{{ total_stu_ }}</div>
+              <div class="box-topic">Electrical Dept</div>
+              <div class="number">{{ total_electri_ }}</div>
               <div class="indicator">
                 <i class="bx bx-up-arrow-alt"></i>
                 <span class="text">For Today</span>
@@ -232,8 +232,8 @@
           </div>
           <div class="box">
             <div class="right-side">
-              <div class="box-topic">Total Out</div>
-              <div class="number">23</div>
+              <div class="box-topic">FoodTech Dept</div>
+              <div class="number">{{ total_food_ }}</div>
               <div class="indicator">
                 <i class="bx bx-up-arrow-alt"></i>
                 <span class="text">For Today</span>
@@ -243,8 +243,8 @@
           </div>
           <div class="box">
             <div class="right-side">
-              <div class="box-topic">Total In-Out</div>
-              <div class="number">246</div>
+              <div class="box-topic">Mechanical Dept</div>
+              <div class="number">{{ total_mech_ }}</div>
               <div class="indicator">
                 <i class="bx bx-up-arrow-alt"></i>
                 <span class="text">For Today</span>
@@ -254,8 +254,8 @@
           </div>
           <div class="box">
             <div class="right-side">
-              <div class="box-topic">Total Later</div>
-              <div class="number">1000</div>
+              <div class="box-topic">Total Leaves</div>
+              <div class="number">{{ total_leaves_ }}</div>
               <div class="indicator">
                 <i class="bx bx-down-arrow-alt down"></i>
                 <span class="text">This week total</span>
@@ -265,7 +265,7 @@
           </div>
         </div>
 
-        <div class="sales-boxes">
+        <!-- <div class="sales-boxes">
           <div class="recent-sales">
             <div class="sales-details box">
 
@@ -334,7 +334,7 @@
           <div class="button">
             <a href="#">See All</a>
           </div>
-        </div>
+        </div> -->
         <div class="cell-mapper">
           <div class="sales-boxes me-calc">
             <div class="recent-sales my-cal">
@@ -520,57 +520,9 @@
         <!-- Setting Space Begun -->
         <div class="col-14">
           <div class="bg-secondary rounded h-100 p-4">
-            <h6 class="mb-4">Responsive Settings</h6>
+            <h6 class="mb-4">Settings</h6>
             <div class="table-responsive">
-              <div class="overview-boxes">
-                <div class="box here-box light-dark-mode">
-                  <div class="right-side">
-                    <div class="box-topic">Total In</div>
-                    <div class="number">36</div>
-                    <div class="indicator">
-                      <i class="bx bx-up-arrow-alt"></i>
-                      <span class="text">For Today</span>
-                    </div>
-                  </div>
-                  <i class="fas fa-calendar cart" aria-hidden="true"></i>
-                </div>
-                <div class="box here-box">
-                  <div class="right-side">
-                    <div class="box-topic">Total Out</div>
-                    <div class="number">23</div>
-                    <div class="indicator">
-                      <i class="bx bx-up-arrow-alt"></i>
-                      <span class="text">Up from yesterday</span>
-                    </div>
-                  </div>
-                  <i class="fas fa-person cart two" aria-hidden="true"></i>
-                </div>
-                <div class="box here-box">
-                  <div class="right-side">
-                    <div class="box-topic">Total In-Out</div>
-                    <div class="number">246</div>
-                    <div class="indicator">
-                      <i class="bx bx-up-arrow-alt"></i>
-                      <span class="text">Up from yesterday</span>
-                    </div>
-                  </div>
-                  <i class="fas fa-user-tie cart three" aria-hidden="true"></i>
-                </div>
-                <div class="box here-box">
-                  <div class="right-side">
-                    <div class="box-topic">Total Whose</div>
-                    <div class="number">1000</div>
-                    <div class="indicator">
-                      <i class="bx bx-down-arrow-alt down"></i>
-                      <span class="text">Down From Today</span>
-                    </div>
-                  </div>
-                  <i class="fas fa-bed cart four" aria-hidden="true"></i>
-                </div>
-              </div>
-            </div>
-            <div class="button">
-              <a href="#">See All</a>
+              <input type="checkbox" name="checkbox" class="switch here-box light-dark-mode" />
             </div>
           </div>
         </div>
@@ -941,7 +893,8 @@
                 <label class="form-label" for="s-studying-since">Studying Since</label>
                 <select class="form-control select-st" id="s-studying-since" name="s-studying-since" required>
                   <option value="" class="op-head" selected disabled>Select since</option>
-                  <option value="First year diploma in computer engineering">First year diploma in computer engineering
+                  <option value="First year diploma in computer engineering">First year diploma in computer
+                    engineering
                   </option>
                   <option value="Second year diploma in computer engineering">Second year diploma in computer
                     engineering</option>

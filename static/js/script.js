@@ -313,15 +313,7 @@ $('.here-box').on('click', function (e) {
     if ($(this).hasClass('light-dark-mode')) {
         $('.sidebar').toggleClass('darker');
     }
-    // else if ($(this).hasClass('a-form2')) {
-    //     $('.dff2').removeClass('show');
-    // }
-    // else if ($(this).hasClass('a-form3')) {
-    //     $('.dff3').removeClass('show');
-    // }
-    // else if ($(this).hasClass('a-form4')) {
-    //     $('.dff4').removeClass('show');
-    // }
+
 })
 $('.log_out').on('click', function (e) {
     var ye_n = confirm('Are you sure?')
