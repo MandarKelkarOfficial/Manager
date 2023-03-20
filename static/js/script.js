@@ -61,6 +61,7 @@ $('li').on('click', function () {
             $('.fa-gear').css("animation-name", "")
         }
     }
+
     else if ($to_who == "pop-up") {
 
         if ($('.col-15').hasClass('show_data')) {
@@ -164,6 +165,31 @@ $('li').on('click', function () {
             $('.fa-gear').css("animation-name", "")
         }
     }
+    else if ($to_who == "my-home") {
+
+        if ($('.col-12').hasClass('show_data') || $('.col-13').hasClass('show_data') || $('.col-17').hasClass('show_data') || $('.col-14').hasClass('show_data') || $('.col-16').hasClass('show_data')) {
+
+            $('.col-14').removeClass('show_data')
+            $('.col-17').removeClass('show_data')
+            $('.col-13').removeClass('show_data')
+            $('.col-12').removeClass('show_data')
+            $('.col-16').removeClass('show_data')
+            $('.col-15').removeClass('show_data')
+        }
+        else {
+
+            $('.col-14').removeClass('show_data')
+            $('.col-13').removeClass('show_data')
+            $('.col-15').removeClass('show_data')
+            $('.col-17').removeClass('show_data')
+            $('.col-16').removeClass('show_data')
+            $('.col-12').removeClass('show_data')
+        }
+        var spin = $('.fa-gear').css("animation-name")
+        if (spin == "spin") {
+            $('.fa-gear').css("animation-name", "")
+        }
+    }
 
 
 
@@ -198,7 +224,6 @@ $('li').on('click', function () {
         $('.container').removeClass('handel_this')
     }
     else if ($('.col-17').hasClass('show_data')) {
-
         $('.overview-boxes').addClass('hide_me')
         $('.sales-boxes').addClass('hide_me')
         $('.container').removeClass('handel_this')

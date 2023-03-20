@@ -61,6 +61,7 @@ class std_manager(db.Model):
     std_nationality = db.Column(db.String(40), nullable=False)
     std_institution_last_attained = db.Column(db.String(250), nullable=False)
     std_Date_of_Admission = db.Column(db.String(250), nullable=False)
+    std_department = db.Column(db.Integer, nullable=True)
     state = db.Column(db.String(50), nullable=False)
     sub_dist = db.Column(db.String(50), nullable=False)
     district = db.Column(db.String(50), nullable=False)
@@ -360,6 +361,7 @@ def process_entry_form():
     sub_cast = request.form["sub-cast"]
     birth_place = request.form["birth-place"]
     birth_date = request.form["birth-date"]
+    std_department = request.form["department"]
 
     """result = print(enrollment.replace(" ", ""),register_num,email,sname,fname,mname,mo_no,country,postcode,address,state,sub_dist,district,allotment,man_entry,marry,gender,age,school_Last_2,birth_date,sub_cast,birth_place,collage_name_2,st_admission,)"""
 
@@ -376,6 +378,7 @@ def process_entry_form():
         std_nationality=country,
         std_institution_last_attained=school_Last_2,
         std_Date_of_Admission=st_admission,
+        std_department=std_department,
         state=state,
         sub_dist=sub_dist,
         district=district,
@@ -504,7 +507,9 @@ def login():
 
         user = user_login.query.filter_by(username=username, password=password).first()
         if user is not None:
-            return render_template("index.html")
+            total_stu_ = std_manager.query.count()
+            print("Here ", total_stu_)
+            return render_template("index.html", total_stu_=total_stu_)
         else:
             error = "Invalid Credentials. Please try again."
     return render_template("login.html")

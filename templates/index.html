@@ -26,6 +26,8 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/tooltip.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/overlay.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/calendarme.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/only-new-dashboard.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/todo-list.css') }}">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
@@ -39,8 +41,8 @@
         <span class="logo_name">Manager</span>
       </div>
       <ul class="nav-links">
-        <li title="Dashboard">
-          <a href=" #" class="active">
+        <li title="Dashboard" class="home-me-toggler" value="my-home">
+          <a href=" #" class="active" class="home-me-toggler" value="my-home">
             <!-- <i class="bx bxs-grid-alt"></i><i class="fas fa-th-large"></i> -->
             <!-- <i class="fa fa-dashboard"></i> -->
             <!-- <i class='bx bxs-dashboard' style="font-size: 23px;
@@ -169,11 +171,58 @@
             </svg>
           </div>
         </div> -->
+        <div class="overview-boxes first-set">
+          <div class="box">
+            <div class="right-side">
+              <div class="box-topic">Total Student</div>
+              <div class="number">{{ total_stu_ }}</div>
+              <div class="indicator">
+                <i class="bx bx-up-arrow-alt"></i>
+                <span class="text">For Today</span>
+              </div>
+            </div>
+            <i class="fas fa-calendar cart" aria-hidden="true"></i>
+          </div>
+          <div class="box">
+            <div class="right-side">
+              <div class="box-topic">Total Out</div>
+              <div class="number">23</div>
+              <div class="indicator">
+                <i class="bx bx-up-arrow-alt"></i>
+                <span class="text">For Today</span>
+              </div>
+            </div>
+            <i class="fas fa-person cart two" aria-hidden="true"></i>
+          </div>
+          <div class="box">
+            <div class="right-side">
+              <div class="box-topic">Total In-Out</div>
+              <div class="number">246</div>
+              <div class="indicator">
+                <i class="bx bx-up-arrow-alt"></i>
+                <span class="text">For Today</span>
+              </div>
+            </div>
+            <i class="fas fa-user-tie cart three" aria-hidden="true"></i>
+          </div>
+          <div class="box">
+            <div class="right-side">
+              <div class="box-topic">Total Later</div>
+              <div class="number">1000</div>
+              <div class="indicator">
+                <i class="bx bx-down-arrow-alt down"></i>
+                <span class="text">This week total</span>
+              </div>
+            </div>
+            <i class='bx bx-bar-chart-alt-2 cart four' aria-hidden="true"></i>
+          </div>
+        </div>
+
         <div class="overview-boxes">
           <div class="box">
             <div class="right-side">
-              <div class="box-topic">Total In</div>
-              <div class="number">36</div>
+              <div class="box-topic">Total Student</div>
+              <div class="number">{{ total_stu_ }}</div>
               <div class="indicator">
                 <i class="bx bx-up-arrow-alt"></i>
                 <span class="text">For Today</span>
@@ -286,24 +335,41 @@
             <a href="#">See All</a>
           </div>
         </div>
-        <div class="sales-boxes">
-          <div class="recent-sales my-cal">
-            <div id="calendar" class="calendar">
-              <div class="calendar-title">
-                <div class="calendar-title-text"></div>
-                <div class="calendar-button-group">
-                  <button id="prevMonth">&lt;</button>
-                  <button id="today">Today</button>
-                  <button id="nextMonth">&gt;</button>
+        <div class="cell-mapper">
+          <div class="sales-boxes me-calc">
+            <div class="recent-sales my-cal">
+              <div id="calendar" class="calendar">
+                <div class="calendar-title">
+                  <div class="calendar-title-text"></div>
+                  <div class="calendar-button-group">
+                    <button id="prevMonth">&lt;</button>
+                    <button id="today">Today</button>
+                    <button id="nextMonth">&gt;</button>
+                  </div>
                 </div>
+                <div class="calendar-day-name"></div>
+                <div class="calendar-dates"></div>
               </div>
-              <div class="calendar-day-name"></div>
-              <div class="calendar-dates"></div>
             </div>
           </div>
-          <!-- <div class="button">
-            <a href="#">See All</a>
-          </div> -->
+          <div class="sales-boxes me-todo">
+            <div class="recent-sales my-cal">
+              <div id="todo-box" class="calendar">
+                <div class="calendar-title-text to-do-title">TODO List</div>
+                <div class="calendar-title todo">
+                  <div class="calendar-title-text"><input class="form-control toto" id="toto" name="toto" tabindex="3"
+                      type="text"></div>
+                  <div class="calendar-button-group"><button id="todo-add" class="todo-adder">Add</button>
+
+                  </div>
+                </div>
+                <div class="todo-lists"></div>
+                <div class="todo-functions">
+
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <!-- <div class="sales-boxes">
           <div class="recent-sales">
@@ -622,6 +688,20 @@
                 <label class="form-label" for="collage-name-2">Collage Name</label>
                 <input class="form-control" id="collage-name-2" name="collage-name-2"
                   value="Government Polytechnic, Malvan" type="text" disabled>
+              </div>
+              <div class="wrapper-f-inner-di">
+                <label class="form-label" for="department">Department</label>
+                <select class="form-control select-st" id="department" name="department" required="">
+                  <option value="" class="op-head" selected="" disabled="">Select Department</option>
+                  <!-- <optgroup label=""> -->
+                  <option value="64">Computer</option>
+                  <option value="32">Civil</option>
+                  <option value="16">Electronic</option>
+                  <option value="8">Electrical</option>
+                  <option value="4">Food Technology</option>
+                  <option value="2">Mechanical</option>
+
+                </select>
               </div>
               <div class="name-class">
                 <div class="entry-wrapper-2">
