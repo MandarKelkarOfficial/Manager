@@ -110,6 +110,11 @@ class leavingpages(db.Model):
     std_leaving = db.Column(db.LargeBinary)
 
 
+class std_departments(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    departments = db.Column(db.String(50), nullable=False)
+
+
 clear = lambda: os.system("cls")  # to clear previous output from the terminal
 
 
@@ -415,7 +420,6 @@ def process_entry_form():
     db.session.commit()
     # except IntegrityError as e:
     #     pass
-
     """redirect the user back to the previous page"""
     return "", 204
 
@@ -515,7 +519,6 @@ def login():
             total_food_ = std_manager.query.filter_by(std_department=4).count()
             total_mech_ = std_manager.query.filter_by(std_department=2).count()
             total_leaves_ = leavingpages.query.count()
-            print(total_comp_, type(total_civil_))
             return render_template(
                 "index.html",
                 total_stu_=total_stu_,
@@ -539,6 +542,30 @@ def index():
 
 @app.route("/datatable")
 def datatable():
+    # print("God")
+    at_once_data = db.session.query(std_manager).all()
+    data_list = []
+    for row in at_once_data:
+        student = co_std_name_sfm.query.filter_by(
+            std_enrollment_no=row.std_enrollment_no
+        ).first()
+
+        dept_t = std_departments.query.filter_by(id=row.std_department).first()
+
+        data_dict = {
+            "Name": f"{student.std_firstname}" + " " + f"{student.std_surname}",
+            "E-Mail": row.std_email,
+            "Department": f"{dept_t.departments}",
+            "Age": row.age,
+            "EnrollNo": row.std_enrollment_no,
+            "MobileNo": row.phone_no,
+            "compData": "<i class='fa-solid fa-circle-info'></i></i><span class='tooltip'>Notifying</span>",
+        }
+        data_list.append(data_dict)
+    data_dict = {"data": data_list}
+
+    with open("./static/dtstatic/data.json", "w") as f:
+        json.dump(data_dict, f)
     return render_template("datatable.html")
 
 

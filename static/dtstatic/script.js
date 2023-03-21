@@ -189,11 +189,11 @@ function callMe() {
       "autoWidth": false,
       "columns": [
         { "data": "Name", "class": "nameG" },
-        { "data": "Position", "class": "positionG" },
-        { "data": "Office", "class": "officeG" },
+        { "data": "E-Mail", "class": "positionG" },
+        { "data": "Department", "class": "officeG" },
         { "data": "Age", "class": "ageG" },
-        { "data": "StartDate", "class": "startdateG" },
-        { "data": "Salary", "class": "salaryG" },
+        { "data": "EnrollNo", "class": "startdateG" },
+        { "data": "MobileNo", "class": "salaryG" },
         { "data": "compData", "class": "compData" }
       ],
       "oLanguage": {
