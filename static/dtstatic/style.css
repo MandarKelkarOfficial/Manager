@@ -265,9 +265,7 @@ div.material-table table td:last-child {
   }
 } */
 
-div.material-table table tr .salaryG {
-  color: purple;
-}
+div.material-table table tr .salaryG {}
 
 div.material-table table tbody tr .compData:hover .fa-circle-info::before {
   /* content: "\f00c"; */
@@ -293,7 +291,7 @@ div.material-table table tbody tr .compData:hover .fa-circle-info::before {
   } */
 
   div.material-table table .startdateG {
-    color: rgb(252, 121, 252);
+
     padding-right: 20px;
   }
 

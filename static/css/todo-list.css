@@ -70,7 +70,8 @@ div#todo-box button:hover {
   cursor: pointer;
 }
 div#todo-box .app {
-  min-height: 38.5vh;
+  min-height: 267px;
+  max-height: 267px;
   display: flex;
   flex-direction: column;
   align-items: center;

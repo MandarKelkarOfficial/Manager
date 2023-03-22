@@ -339,7 +339,7 @@ $('.finalbody').on('mouseover', '.compData', function () {
   var sal = $(this).closest("tr").find('.salaryG').text();
 
   // var tempDataBlock = [na, pos, offfi, ager, sa, sal]
-  var tempDataBlock = "<tr class='simpDataTr'><td class='simpDataTd1'>Name</td><td class='simpDataTd2' text-align='left' vertical-align='middle'>" + na + "</td></tr><tr class='simpDataTr'><td class='simpDataTd1'>Position</td><td class='simpDataTd2'>" + pos + "</td></tr><tr class='simpDataTr'><td class='simpDataTd1'>Office</td><td class='simpDataTd2'>" + offfi + "</td></tr><tr class='simpDataTr'><td class='simpDataTd1'>Age</td><td class='simpDataTd2'>" + ager + "</td></tr><tr class='simpDataTr'><td class='simpDataTd1'>Start Date</td><td class='simpDataTd2'>" + sa + "</td></tr><tr class='simpDataTr'><td class='simpDataTd1'>Salary</td><td class='simpDataTd2'>" + sal + "</td></tr>"
+  var tempDataBlock = "<tr class='simpDataTr'><td class='simpDataTd1'>Name</td><td class='simpDataTd2' text-align='left' vertical-align='middle'>" + na + "</td></tr><tr class='simpDataTr'><td class='simpDataTd1'>E-Mail</td><td class='simpDataTd2'>" + pos + "</td></tr><tr class='simpDataTr'><td class='simpDataTd1'>Department</td><td class='simpDataTd2'>" + offfi + "</td></tr><tr class='simpDataTr'><td class='simpDataTd1'>Age</td><td class='simpDataTd2'>" + ager + "</td></tr><tr class='simpDataTr'><td class='simpDataTd1'>Enroll No.</td><td class='simpDataTd2'>" + sa + "</td></tr><tr class='simpDataTr'><td class='simpDataTd1'>Mobile No.</td><td class='simpDataTd2'>" + sal + "</td></tr>"
   if ($(this).hasClass('god')) {
     $('.compData').removeClass('god');
     $(this).addClass('god');
