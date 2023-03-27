@@ -1,0 +1,49 @@
+.profile-details.settings-profile-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    img.settingsprofile {
+        height: 80px;
+        border: 2px solid #82a0f2;
+        border-radius: 50px;
+        background-image: linear-gradient(to right, #8079f0 0%, #82abf2 51%, #8079f0 100%);
+        box-shadow: 0px 8px 16px rgb(131 173 243 / 12%);
+        background-size: 200% auto;
+        transition: 0.5s;
+        cursor: pointer;
+    }
+
+    span.admin_name.settings-name {
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        input.settings-username {
+            text-align: center;
+            width: 85%;
+            outline: none;
+            color: white;
+            font-size: 17px;
+            background: transparent;
+            border: 0px;
+            border-width: 0px;
+            transition: 0.7s all ease;
+        }
+        input.settings-username:focus {
+            border-bottom: 1px solid #81a5f1;
+        }
+    }
+    i.bx.bx-chevron-down.settings-hook {
+        color: #fff;
+        /* background: linear-gradient(to right, #8382ff, #bf95fe, #ce61fe, #f850ff); */
+        background-image: linear-gradient(to right, #8079f0 0%, #82abf2 51%, #8079f0 100%);
+        /* box-shadow: 0px 8px 16px rgb(131 173 243 / 12%); */
+        /* background-size: 200% auto; */
+        /* transition: 0.5s; */
+        cursor: pointer;
+        -webkit-text-fill-color: transparent;
+        -webkit-background-clip: text;
+        font-size: 24px;
+        font-weight: 500;
+    }
+}

@@ -235,7 +235,74 @@ $('li').on('click', function () {
         $('.container').removeClass('handel_this')
     }
 });
+$('#pro_settings').on('click', function (e) {
+    if ($('.col-14').hasClass('show_data')) {
+        $('.col-14').removeClass('show_data')
+        $('.col-15').removeClass('show_data')
+        $('.col-13').removeClass('show_data')
+        $('.col-17').removeClass('show_data')
+        $('.col-16').removeClass('show_data')
+        $('.col-12').removeClass('show_data')
+    }
+    else {
+        $('.col-13').removeClass('show_data')
+        $('.col-15').removeClass('show_data')
+        $('.col-17').removeClass('show_data')
+        $('.col-12').removeClass('show_data')
+        $('.col-16').removeClass('show_data')
+        $('.col-14').addClass('show_data')
+    }
 
+    var spin = $('.fa-gear').css("animation-name")
+    if (spin == "spin") {
+        $('.fa-gear').css("animation-name", "")
+    }
+    else {
+        $('.fa-gear').css("animation-name", "spin")
+    }
+
+    if ($('.col-13').hasClass('show_data')) {
+
+        $('.overview-boxes').addClass('hide_me')
+        $('.sales-boxes').addClass('hide_me')
+        $('.container').addClass('handel_this')
+    }
+    else if ($('.col-12').hasClass('show_data')) {
+
+        $('.overview-boxes').addClass('hide_me')
+        $('.sales-boxes').addClass('hide_me')
+        $('.container').removeClass('handel_this')
+    }
+    else if ($('.col-14').hasClass('show_data')) {
+
+        $('.overview-boxes').addClass('hide_me')
+        $('.sales-boxes').addClass('hide_me')
+        $('.container').removeClass('handel_this')
+    }
+    else if ($('.col-15').hasClass('show_data')) {
+
+        $('.overview-boxes').addClass('hide_me')
+        $('.sales-boxes').addClass('hide_me')
+        $('.container').removeClass('handel_this')
+    }
+    else if ($('.col-16').hasClass('show_data')) {
+
+        $('.overview-boxes').addClass('hide_me')
+        $('.sales-boxes').addClass('hide_me')
+        $('.container').removeClass('handel_this')
+    }
+    else if ($('.col-17').hasClass('show_data')) {
+        $('.overview-boxes').addClass('hide_me')
+        $('.sales-boxes').addClass('hide_me')
+        $('.container').removeClass('handel_this')
+    }
+    else {
+        $('.overview-boxes').removeClass('hide_me')
+        $('.sales-boxes').removeClass('hide_me')
+        // $('.col-12').removeClass('hide_me')
+        $('.container').removeClass('handel_this')
+    }
+})
 
 /* Storing user's device details in a variable*/
 let details = navigator.userAgent;
@@ -318,7 +385,7 @@ $('.here-box').on('click', function (e) {
 $('.log_out').on('click', function (e) {
     var ye_n = confirm('Are you sure?')
     if (ye_n == true) {
-        window.location.replace('http://127.0.0.1:5503/manager/login/loginfom.html')
+        window.location.replace('/login')
     }
 })
 

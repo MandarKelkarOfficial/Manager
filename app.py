@@ -22,7 +22,7 @@ from normword_dna import dna as me
 from flask_sqlalchemy import SQLAlchemy
 from PyPDF2 import PdfFileWriter, PdfFileReader
 from reportlab.pdfgen.canvas import Canvas
-from sqlalchemy.exc import IntegrityError
+from flask_mail import Mail, Message
 from flask import (
     Flask,
     make_response,
@@ -40,6 +40,14 @@ from flask import (
 app = Flask(__name__)
 CORS(app)
 db = SQLAlchemy()
+mail = Mail(app)
+app.config["MAIL_SERVER"] = "smtp.gmail.com"
+app.config["MAIL_PORT"] = 465
+app.config["MAIL_USERNAME"] = "datahive1025@gmail.com"
+app.config["MAIL_PASSWORD"] = "cfrraaxtpukwfycb"
+app.config["MAIL_USE_TLS"] = False
+app.config["MAIL_USE_SSL"] = True
+mail = Mail(app)
 
 app.config[
     "SQLALCHEMY_DATABASE_URI"
@@ -102,6 +110,7 @@ class std_collage_manager(db.Model):
 class user_login(db.Model):
     uid = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), nullable=False)
+    si_email = db.Column(db.String(100), nullable=False)
     password = db.Column(db.String(100), nullable=False)
 
 
@@ -452,6 +461,15 @@ def check_enroll(enroll):
         return jsonify({"exists": False})
 
 
+@app.route("/check-on-username/<meuser>")
+def check_on_username(meuser):
+    new_name = user_login.query.filter_by(username=meuser).first()
+    if new_name is not None:
+        return jsonify({"exists": True})
+    else:
+        return jsonify({"exists": False})
+
+
 @app.route("/process-form", methods=["POST"])
 def process_form():
     enrollment = request.form["enroll-number"]
@@ -502,7 +520,40 @@ def get_data():
     return jsonify(data)
 
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/signup", methods=["GET", "POST"])
+def signup():
+    if request.method == "POST":
+        # get the form data
+        s_username = request.form["si_username"]
+        s_email = request.form["si_email"]
+        s_password = request.form["si_password"]
+
+        max_uid = db.session.query(db.func.max(user_login.uid)).scalar() or 0
+        signup_data = user_login(
+            uid=max_uid + 1,
+            username=s_username,
+            si_email=s_email,
+            password=s_password,
+        )
+        msg = Message("DataHive", sender="datahive1025@gmail.com", recipients=[s_email])
+        msg.body = (
+            "Hello " + s_username + "! You have successfully signed up to DataHive"
+        )
+        mail.send(msg)
+        # response = ""
+        try:
+            db.session.add(signup_data)
+            db.session.commit()
+            response = {"status": "success"}
+            return jsonify(response)
+        except Exception:
+            db.session.rollback()  # Roll back the session in case of an error
+            response = {"status": "error"}
+            return jsonify(response)
+    # return redirect(url_for("login"), code=307)
+
+
+@app.route("/login", methods=["GET", "POST"])
 def login():
     error = None
     if request.method == "POST":
@@ -511,33 +562,43 @@ def login():
 
         user = user_login.query.filter_by(username=username, password=password).first()
         if user is not None:
-            total_stu_ = std_manager.query.count()
-            total_comp_ = std_manager.query.filter_by(std_department=64).count()
-            total_civil_ = std_manager.query.filter_by(std_department=32).count()
-            total_electo_ = std_manager.query.filter_by(std_department=16).count()
-            total_electri_ = std_manager.query.filter_by(std_department=8).count()
-            total_food_ = std_manager.query.filter_by(std_department=4).count()
-            total_mech_ = std_manager.query.filter_by(std_department=2).count()
-            total_leaves_ = leavingpages.query.count()
-            return render_template(
-                "index.html",
-                total_stu_=total_stu_,
-                total_comp_=total_comp_,
-                total_civil_=total_civil_,
-                total_electo_=total_electo_,
-                total_electri_=total_electri_,
-                total_food_=total_food_,
-                total_mech_=total_mech_,
-                total_leaves_=total_leaves_,
-            )
+            # Return a JSON response indicating success or failure
+            response = {"status": "success"}
+            return jsonify(response)
+
         else:
             error = "Invalid Credentials. Please try again."
     return render_template("login.html")
 
 
+@app.route("/")
+def lo_sigin():
+    return render_template("login.html")
+
+
 @app.route("/index")
 def index():
-    return render_template("index.html")
+    total_stu_ = std_manager.query.count()
+    total_comp_ = std_manager.query.filter_by(std_department=64).count()
+    total_civil_ = std_manager.query.filter_by(std_department=32).count()
+    total_electo_ = std_manager.query.filter_by(std_department=16).count()
+    total_electri_ = std_manager.query.filter_by(std_department=8).count()
+    total_food_ = std_manager.query.filter_by(std_department=4).count()
+    total_mech_ = std_manager.query.filter_by(std_department=2).count()
+    total_leaves_ = leavingpages.query.count()
+    # user_login.query.filter_by()
+    return render_template(
+        "index.html",
+        total_stu_=total_stu_,
+        total_comp_=total_comp_,
+        total_civil_=total_civil_,
+        total_electo_=total_electo_,
+        total_electri_=total_electri_,
+        total_food_=total_food_,
+        total_mech_=total_mech_,
+        total_leaves_=total_leaves_,
+        set_username="Beast Boi",
+    )
 
 
 @app.route("/datatable")

@@ -144,6 +144,29 @@ html::-webkit-scrollbar-thumb {
                     color: #1e1d1d;
                 }
             }
+            input#si-email {
+                margin-top: 22px;
+            }
+            .entry-wrapper {
+                .u-name {
+                    margin-bottom: 0;
+                }
+                span.trans-error {
+                    position: absolute;
+                    z-index: 2;
+                    opacity: 0;
+                    padding: 5px;
+                    padding-left: 26px;
+                    color: rgb(255 0 0);
+                    transform: translateY(-1.2em);
+                    transition: all 0.3s ease;
+                }
+
+                span.trans-error.error-translateY {
+                    opacity: 1;
+                    transform: translateY(-0.5em);
+                }
+            }
         }
 
         .submit-btn {

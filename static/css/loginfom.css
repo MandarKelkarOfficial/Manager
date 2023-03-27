@@ -132,6 +132,26 @@ html::-webkit-scrollbar-thumb {
   color: rgba(0, 0, 0, 0.4);
   color: #1e1d1d;
 }
+.form-structor .signup .form-holder input#si-email {
+  margin-top: 22px;
+}
+.form-structor .signup .form-holder .entry-wrapper .u-name {
+  margin-bottom: 0;
+}
+.form-structor .signup .form-holder .entry-wrapper span.trans-error {
+  position: absolute;
+  z-index: 2;
+  opacity: 0;
+  padding: 5px;
+  padding-left: 26px;
+  color: rgb(255, 0, 0);
+  transform: translateY(-1.2em);
+  transition: all 0.3s ease;
+}
+.form-structor .signup .form-holder .entry-wrapper span.trans-error.error-translateY {
+  opacity: 1;
+  transform: translateY(-0.5em);
+}
 .form-structor .signup .submit-btn {
   background-color: rgba(0, 0, 0, 0.4);
   color: rgba(255, 255, 255, 0.7);
