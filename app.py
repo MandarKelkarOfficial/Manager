@@ -23,6 +23,7 @@ from flask_sqlalchemy import SQLAlchemy
 from PyPDF2 import PdfFileWriter, PdfFileReader
 from reportlab.pdfgen.canvas import Canvas
 from flask_mail import Mail, Message
+from werkzeug.utils import secure_filename
 from flask import (
     Flask,
     make_response,
@@ -48,7 +49,8 @@ app.config["MAIL_PASSWORD"] = "cfrraaxtpukwfycb"
 app.config["MAIL_USE_TLS"] = False
 app.config["MAIL_USE_SSL"] = True
 mail = Mail(app)
-
+app.config["UPLOAD_FOLDER"] = "static/img"
+app.config["ALLOWED_EXTENSIONS"] = {"png", "jpg", "jpeg", "gif"}
 app.config[
     "SQLALCHEMY_DATABASE_URI"
 ] = "postgresql://student_08mv_user:LW1vDrthH1iSsOCPjDfVQK0pOulPDKrG@dpg-cfo5ro94rebfdav246og-a.oregon-postgres.render.com/student_08mv"
@@ -112,6 +114,7 @@ class user_login(db.Model):
     username = db.Column(db.String(100), nullable=False)
     si_email = db.Column(db.String(100), nullable=False)
     password = db.Column(db.String(100), nullable=False)
+    user_avatar_pic = db.Column(db.LargeBinary, nullable=True)
 
 
 class leavingpages(db.Model):
@@ -553,6 +556,34 @@ def signup():
     # return redirect(url_for("login"), code=307)
 
 
+@app.route("/upload-pravatar", methods=["POST"])
+def upload_image():
+    image_file = request.files["image"]
+    cook_username = request.cookies.get("username")
+    # print("", cook_username)
+    filename = secure_filename(image_file.filename)
+    binary_data_pic = image_file.read()
+    # try:
+    # save_avatar = user_login(username=cook_username, user_avatar_pic=binary_data_pic)
+    save_avatar = user_login.query.filter_by(username=cook_username).first()
+    if save_avatar:
+        save_avatar.user_avatar_pic = binary_data_pic
+        db.session.commit()
+
+        temp_user = user_login.query.filter_by(username=cook_username).first()
+        if temp_user and temp_user.user_avatar_pic:
+            file_name = secure_filename("pro_pic.jpg")
+            file_path = os.path.join(app.config["UPLOAD_FOLDER"], file_name)
+            with open(file_path, "wb") as f:
+                f.write(temp_user.user_avatar_pic)
+        return jsonify({"message": "Image uploaded successfully"})
+
+    # cook_username = request.cookies.get("username")
+
+    # except Exception:
+    # return jsonify({"message": "Image upload failed"})
+
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     error = None
@@ -560,11 +591,19 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
 
+        this_pic_file = request.files.get("profile-pic")
+        filename = secure_filename(this_pic_file.filename)
+        binary_data_pic = this_pic_file.read()
         user = user_login.query.filter_by(username=username, password=password).first()
         if user is not None:
             # Return a JSON response indicating success or failure
-            response = {"status": "success"}
-            return jsonify(response)
+            save_avatar = user_login.query.filter_by(username=username).first()
+            if save_avatar:
+                save_avatar.user_avatar_pic = binary_data_pic
+                db.session.commit()
+
+                response = {"status": "success"}
+                return jsonify(response)
 
         else:
             error = "Invalid Credentials. Please try again."
@@ -586,6 +625,14 @@ def index():
     total_food_ = std_manager.query.filter_by(std_department=4).count()
     total_mech_ = std_manager.query.filter_by(std_department=2).count()
     total_leaves_ = leavingpages.query.count()
+    cook_username = request.cookies.get("username")
+    temp_user = user_login.query.filter_by(username=cook_username).first()
+    if temp_user and temp_user.user_avatar_pic:
+        file_name = secure_filename("pro_pic.jpg")
+        file_path = os.path.join(app.config["UPLOAD_FOLDER"], file_name)
+        with open(file_path, "wb") as f:
+            f.write(temp_user.user_avatar_pic)
+
     # user_login.query.filter_by()
     return render_template(
         "index.html",
@@ -597,7 +644,7 @@ def index():
         total_food_=total_food_,
         total_mech_=total_mech_,
         total_leaves_=total_leaves_,
-        set_username="Beast Boi",
+        set_username=cook_username,
     )
 
 

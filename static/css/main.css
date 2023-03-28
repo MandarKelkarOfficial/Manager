@@ -2648,3 +2648,30 @@ option:hover {
     filter: blur(0px);
   }
 }
+
+
+
+.sidebar.it_is_mobile.active {
+  width: 0 !important;
+  z-index: 88;
+}
+
+.sidebar.it_is_mobile.active~.home-section {
+  width: calc(100% - 0px) !important;
+  left: 0 !important;
+}
+
+.sidebar.it_is_mobile.active>.nav-links li .links_name {
+  display: none;
+  transition: display 0.5s ease;
+}
+
+.sidebar.it_is_mobile.active>.nav-links li i {
+  opacity: 0;
+  display: none;
+  transition: opacity, display 0.5s ease;
+}
+
+.sidebar.it_is_mobile>.logo-details {
+  width: 61px;
+}

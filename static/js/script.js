@@ -382,12 +382,25 @@ $('.here-box').on('click', function (e) {
     }
 
 })
+
+
+function deleteSessionCookie() {
+    document.cookie = 'username' + '=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;';
+}
+
 $('.log_out').on('click', function (e) {
     var ye_n = confirm('Are you sure?')
     if (ye_n == true) {
+        deleteSessionCookie()
         window.location.replace('/login')
     }
 })
+
+// Delete the session cookie when the window is closed
+// $(window).on('unload', function () {
+//     deleteSessionCookie()
+// });
+
 
 $('#mobile-num').on('input', function (e) {
     var x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
@@ -492,6 +505,81 @@ $(document).ready(function () {
             }
         }
     });
+
+    const colorThief = new ColorThief();
+    const img = $('#imagePreview')[0];
+    var colorDom;
+    // Make sure image is finished loading
+    if (img.complete) {
+        colorDom = colorThief.getColor(img);
+        $('#imagePreview').prop('style', '')
+        $('#imagePreview').prop('style', 'box-shadow: 0px 0px 22px 13px rgba(' + colorDom + ', 0.23) !important;');
+    } else {
+        img.addEventListener('load', function () {
+            colorDom = colorThief.getColor(img);
+            $('#imagePreview').attr('style', '')
+            $('#imagePreview').attr('style', 'box-shadow: 0px 0px 22px 13px rgba(' + colorDom + ', 0.23) !important;');
+
+        });
+    }
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#imagePreview').prop('src', '');
+                $('#imagePreview').prop('src', e.target.result);
+                $('#imagePreview').hide();
+                $('#imagePreview').fadeIn(650);
+
+                $('#MinImagePreviewBack').prop('src', '');
+                $('#MinImagePreviewBack').prop('src', e.target.result);
+                $('#MinImagePreviewBack').hide();
+                $('#MinImagePreviewBack').fadeIn(650);
+                const colorThief = new ColorThief();
+                const img = $('#imagePreview')[0];
+                var colorDom;
+                if (img.complete) {
+                    colorDom = colorThief.getColor(img);
+                    $('#imagePreview').attr('style', '')
+                    $('#imagePreview').attr('style', 'box-shadow: 0px 0px 22px 13px rgba(' + colorDom + ', 0.23) !important;');
+
+                } else {
+                    img.addEventListener('load', function () {
+                        colorDom = colorThief.getColor(img);
+                        $('#imagePreview').attr('style', '')
+                        $('#imagePreview').attr('style', 'box-shadow: 0px 0px 22px 13px rgba(' + colorDom + ', 0.23) !important;');
+
+                    });
+                }
+
+                const imageData = e.target.result;
+                const formData = new FormData();
+                formData.append('image', input.files[0]);
+                formData.append('username', $('#enroll-number-2').val());
+                $.ajax({
+                    url: '/upload-pravatar',
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        console.log('Image uploaded successfully');
+                        // Do something with the response from Flask
+                    },
+                    error: function (error) {
+                        console.error('Error uploading image:', error);
+                    }
+                });
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    $("#imageUpload").change(function () {
+        readURL(this);
+    });
+
+
 });
 
 let currentDate = dayjs();

@@ -210,4 +210,18 @@ div#todo-box .list-enter,
 div#todo-box .list-leave-active {
   transform: translate(100%, 0);
   opacity: 0;
+}
+
+@media (max-width: 400px) {
+  .sidebar.it_is_mobile ~ .home-section .home-content .sales-boxes .my-cal .calendar .app .filters .btn {
+    font-size: 13px !important;
+    margin: 0 0.2em !important;
+    letter-spacing: 0px !important;
+  }
+  .sidebar.it_is_mobile ~ .home-section .home-content .sales-boxes .my-cal .calendar {
+    padding: 16px !important;
+  }
+}
+div#todo-box .filters {
+  padding: 0 0rem 0.2rem 0rem;
 }/*# sourceMappingURL=todo-list.css.map */

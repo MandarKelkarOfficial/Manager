@@ -82,22 +82,40 @@ $(document).ready(function () {
         }
     });
 
+
+    // Function to set the session cookie
+    function setSessionCookie(cookieName, cookieValue, expirationDays) {
+        var d = new Date();
+        d.setTime(d.getTime() + (expirationDays * 24 * 60 * 60 * 1000));
+        var expires = "expires=" + d.toUTCString();
+        document.cookie = cookieName + "=" + cookieValue + ";" + expires + ";path=/";
+    }
+
+
     $('#login-from').submit(function (event) {
         // Prevent the form from submitting normally
         event.preventDefault();
 
         // Get the form data
-        var formData = {
-            'username': $('input[name="username"]').val(),
-            'password': $('input[name="password"]').val()
-        };
-
+        // var formData = {
+        //     'username': $('input[name="username"]').val(),
+        //     'password': $('input[name="password"]').val()
+        // };
+        var formData = new FormData();
+        formData.append('username', $('input[name="username"]').val());
+        formData.append('password', $('input[name="password"]').val());
+        var fileInput = $('input[name="profile-pica"]')[0];
+        if (fileInput.files.length > 0) {
+            formData.append('profile-pic', fileInput.files[0], fileInput.files[0].name);
+        }
         // Send the AJAX request
         $.ajax({
             type: 'POST',
             url: '/login',
             data: formData,
             dataType: 'json',
+            contentType: false,
+            processData: false,
             encode: true
         })
             .done(function (data) {
@@ -108,5 +126,7 @@ $(document).ready(function () {
                 }
 
             });
+        now_username = $('input[name="username"]').val()
+        setSessionCookie('username', now_username, 1)
     });
 });

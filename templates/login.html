@@ -22,6 +22,7 @@
                             required />
                         <span id="username-error" class="trans-error">Username already taken!</span>
                     </div>
+
                     <input type="email" class="input u-email" id="si-email" name="si-email" placeholder="Email"
                         required />
                     <input type="password" class="input u-pass" id="si-password" name="si-password"
@@ -39,6 +40,8 @@
                     <div class="form-holder">
                         <input type="text" class="input  u-name-in" id="username" name="username" placeholder="Username"
                             required />
+                        <img src="{{ url_for('static', filename='img/put_this_on_sign_up.jpg') }}" style="display:none;"
+                            name="profile_pica" alt="">
                         <input type="password" class="input u-pass-in" id="password" name="password"
                             placeholder="Password" required />
                     </div>
