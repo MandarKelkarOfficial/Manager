@@ -530,13 +530,15 @@ def signup():
         s_username = request.form["si_username"]
         s_email = request.form["si_email"]
         s_password = request.form["si_password"]
-
+        with open("static/img/put_this_on_sign_up.jpg", "rb") as f:
+            default_photo = f.read()
         max_uid = db.session.query(db.func.max(user_login.uid)).scalar() or 0
         signup_data = user_login(
             uid=max_uid + 1,
             username=s_username,
             si_email=s_email,
             password=s_password,
+            user_avatar_pic=default_photo,
         )
         msg = Message("DataHive", sender="datahive1025@gmail.com", recipients=[s_email])
         msg.body = (
@@ -591,17 +593,8 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
 
-        # this_pic_file = request.files.get("profile-pic")
-        # filename = secure_filename(this_pic_file.filename)
-        # binary_data_pic = this_pic_file.read()
         user = user_login.query.filter_by(username=username, password=password).first()
         if user is not None:
-            # Return a JSON response indicating success or failure
-            # save_avatar = user_login.query.filter_by(username=username).first()
-            # if save_avatar:
-            #     save_avatar.user_avatar_pic = binary_data_pic
-            #     db.session.commit()
-
             response = {"status": "success"}
             return jsonify(response)
 

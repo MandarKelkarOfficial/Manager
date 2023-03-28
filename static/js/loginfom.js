@@ -101,13 +101,6 @@ $(document).ready(function () {
             'username': $('input[name="username"]').val(),
             'password': $('input[name="password"]').val()
         };
-        // var formData = new FormData();
-        // formData.append('username', $('input[name="username"]').val());
-        // formData.append('password', $('input[name="password"]').val());
-        // var fileInput = $('input[name="profile-pica"]')[0];
-        // if (fileInput.files.length > 0) {
-        //     formData.append('profile-pic', fileInput.files[0], fileInput.files[0].name);
-        // }
         // Send the AJAX request
         $.ajax({
             type: 'POST',
