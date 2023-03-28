@@ -591,19 +591,19 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
 
-        this_pic_file = request.files.get("profile-pic")
-        filename = secure_filename(this_pic_file.filename)
-        binary_data_pic = this_pic_file.read()
+        # this_pic_file = request.files.get("profile-pic")
+        # filename = secure_filename(this_pic_file.filename)
+        # binary_data_pic = this_pic_file.read()
         user = user_login.query.filter_by(username=username, password=password).first()
         if user is not None:
             # Return a JSON response indicating success or failure
-            save_avatar = user_login.query.filter_by(username=username).first()
-            if save_avatar:
-                save_avatar.user_avatar_pic = binary_data_pic
-                db.session.commit()
+            # save_avatar = user_login.query.filter_by(username=username).first()
+            # if save_avatar:
+            #     save_avatar.user_avatar_pic = binary_data_pic
+            #     db.session.commit()
 
-                response = {"status": "success"}
-                return jsonify(response)
+            response = {"status": "success"}
+            return jsonify(response)
 
         else:
             error = "Invalid Credentials. Please try again."
