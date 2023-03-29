@@ -319,9 +319,12 @@ let isMobileDevice = regexp.test(details);
 if (isMobileDevice) {
     $('.home-section').addClass('it_is_mobile')
     $('.sidebar').addClass('it_is_mobile')
+    $('.container').addClass('it_is_mobile')
 
 } else {
     $('.home-section').removeClass('it_is_mobile')
+    $('.sidebar').removeClass('it_is_mobile')
+    $('.container').removeClass('it_is_mobile')
 }
 $('.sidebarBtn').on('click', function () {
     if ($('.sidebar').hasClass('it_is_mobile')) {
@@ -379,21 +382,37 @@ $('.link-bb').on('click', function () {
 $('.here-box').on('click', function (e) {
     if ($(this).hasClass('light-dark-mode')) {
         $('.sidebar').toggleClass('darker');
+        $('.container').toggleClass('dark-me');
     }
-
 })
 
 
 function deleteSessionCookie() {
     document.cookie = 'username' + '=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;';
 }
-
 $('.log_out').on('click', function (e) {
-    var ye_n = confirm('Are you sure?')
-    if (ye_n == true) {
+    const img2 = $('#imagePreview').attr('src');
+    function log_him_out() {
         deleteSessionCookie()
         window.location.replace('/login')
     }
+    Swal.fire({
+        titleText: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        imageUrl: img2,
+        imageWidth: 150,
+        imageHeight: 150,
+        imageAlt: 'Custom image',
+        showCancelButton: true,
+        confirmButtonColor: 'rgb(139 127 149 / 92%)',
+        cancelButtonColor: '#686079',
+        confirmButtonText: 'Yes, Logout!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            log_him_out()
+        }
+    })
+
 })
 
 // Delete the session cookie when the window is closed
