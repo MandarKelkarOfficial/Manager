@@ -114,7 +114,8 @@ class user_login(db.Model):
     username = db.Column(db.String(100), nullable=False)
     si_email = db.Column(db.String(100), nullable=False)
     password = db.Column(db.String(100), nullable=False)
-    user_avatar_pic = db.Column(db.LargeBinary, nullable=True)
+    pro_pic_name = db.Column(db.String(100), nullable=True)
+    # user_avatar_pic = db.Column(db.LargeBinary, nullable=True)
 
 
 class leavingpages(db.Model):
@@ -530,15 +531,15 @@ def signup():
         s_username = request.form["si_username"]
         s_email = request.form["si_email"]
         s_password = request.form["si_password"]
-        with open("static/img/put_this_on_sign_up.jpg", "rb") as f:
-            default_photo = f.read()
+        # with open("static/img/put_this_on_sign_up.jpg", "rb") as f:
+        #     default_photo = f.read()
         max_uid = db.session.query(db.func.max(user_login.uid)).scalar() or 0
         signup_data = user_login(
             uid=max_uid + 1,
             username=s_username,
             si_email=s_email,
             password=s_password,
-            user_avatar_pic=default_photo,
+            pro_pic_name="put_this_on_sign_up",
         )
         msg = Message("DataHive", sender="datahive1025@gmail.com", recipients=[s_email])
         msg.body = (
@@ -569,15 +570,20 @@ def upload_image():
     # save_avatar = user_login(username=cook_username, user_avatar_pic=binary_data_pic)
     save_avatar = user_login.query.filter_by(username=cook_username).first()
     if save_avatar:
-        save_avatar.user_avatar_pic = binary_data_pic
+        save_avatar.pro_pic_name = cook_username
         db.session.commit()
 
         temp_user = user_login.query.filter_by(username=cook_username).first()
-        if temp_user and temp_user.user_avatar_pic:
-            file_name = secure_filename("pro_pic.jpg")
+        # if temp_user and temp_user.user_avatar_pic:
+        #     file_name = secure_filename(cook_username + ".jpg")
+        #     file_path = os.path.join(app.config["UPLOAD_FOLDER"], file_name)
+        #     with open(file_path, "wb") as f:
+        #         f.write(temp_user.user_avatar_pic)
+        if temp_user and temp_user.pro_pic_name:
+            file_name = secure_filename(cook_username + ".jpg")
             file_path = os.path.join(app.config["UPLOAD_FOLDER"], file_name)
             with open(file_path, "wb") as f:
-                f.write(temp_user.user_avatar_pic)
+                f.write(binary_data_pic)
         return jsonify({"message": "Image uploaded successfully"})
 
     # cook_username = request.cookies.get("username")
@@ -620,11 +626,12 @@ def index():
     total_leaves_ = leavingpages.query.count()
     cook_username = request.cookies.get("username")
     temp_user = user_login.query.filter_by(username=cook_username).first()
-    if temp_user and temp_user.user_avatar_pic:
-        file_name = secure_filename("pro_pic.jpg")
-        file_path = os.path.join(app.config["UPLOAD_FOLDER"], file_name)
-        with open(file_path, "wb") as f:
-            f.write(temp_user.user_avatar_pic)
+    pro_pic = temp_user.pro_pic_name
+    # if temp_user and temp_user.user_avatar_pic:
+    #     file_name = secure_filename(cook_username + ".jpg")
+    #     file_path = os.path.join(app.config["UPLOAD_FOLDER"], file_name)
+    #     with open(file_path, "wb") as f:
+    #         f.write(temp_user.user_avatar_pic)
 
     # user_login.query.filter_by()
     return render_template(
@@ -638,6 +645,7 @@ def index():
         total_mech_=total_mech_,
         total_leaves_=total_leaves_,
         set_username=cook_username,
+        pro_pic=pro_pic,
     )
 
 
