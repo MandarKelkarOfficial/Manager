@@ -9,6 +9,9 @@
         max-width: 100%;
         border-radius: 50%;
         margin: 1.25em auto;
+        border: 2px solid;
+        border-color: #4d5f91;
+        object-fit: cover;
     }
     .swal2-styled.swal2-confirm {
         background-color: rgb(104 130 198);
