@@ -130,7 +130,7 @@
         <div class="profile-details" id="pro_settings">
           <!-- <img id="MinImagePreviewBack" src="{{ url_for('static', filename='img/Sad Anime Boy With Mask.jpeg') }}"
             alt=""> -->
-          <img id="MinImagePreviewBack" src="{{ url_for('static', filename='img/'+pro_pic+'.jpg') }}" alt="">
+          <img id="MinImagePreviewBack" src="{{ url_for('static', filename='img/pro_pic.jpg') }}" alt="">
           <span class="admin_name">{{set_username}}</span>
           <i class="bx bx-chevron-down"></i>
         </div>
@@ -530,7 +530,8 @@
                   <input type="file" id="imageUpload" accept=".png, .jpg, .jpeg">
                   <label for="imageUpload"></label>
                 </div>
-                <img id="imagePreview" src="{{ url_for('static', filename='img/'+pro_pic+'.jpg') }}" alt=""
+
+                <img id="imagePreview" src="{{ url_for('static', filename='img/pro_pic.jpg') }}" alt=""
                   class="settingsprofile">
                 <!-- <img id="imagePreviewBack" src="/static/img/Sad%20Anime%20Boy%20With%20Mask.jpeg" alt=""
                   class="settingsprofile backGroundImg"> -->
