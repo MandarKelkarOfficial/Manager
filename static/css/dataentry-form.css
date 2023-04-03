@@ -142,7 +142,7 @@ button {
 .dataentry-e-form--sent > div ~ div {
   margin: 0;
 }
-.dataentry-e-form.form-button {
+.dataentry-e-form .bb-form-btn-d .form-button {
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
@@ -152,10 +152,13 @@ button {
   border: 1px solid transparent;
   border-radius: 4px;
   cursor: pointer;
-  margin: 0px 10px;
-  width: 40%;
+  margin: 0px 0px;
+  width: 100% !important;
   height: 40px;
   box-sizing: border-box;
+}
+.dataentry-e-form .bb-form-btn-d .form-button.data-bbx.data_b1 {
+  margin-right: 25px !important;
 }
 .dataentry-e-form .name-class {
   display: flex;

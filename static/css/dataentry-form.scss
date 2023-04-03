@@ -185,18 +185,23 @@ button {
         }
     }
 
-    &.form-button {
-        appearance: none;
-        padding: 5px 10px;
-        font: 0.875rem/1.5 sans-serif;
-        background-color: #e7d4f9;
-        border: 1px solid transparent;
-        border-radius: 4px;
-        cursor: pointer;
-        margin: 0px 10px;
-        width: 40%;
-        height: 40px;
-        box-sizing: border-box;
+    .bb-form-btn-d {
+        .form-button {
+            appearance: none;
+            padding: 5px 10px;
+            font: 0.875rem/1.5 sans-serif;
+            background-color: #e7d4f9;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0px 0px;
+            width: 100% !important;
+            height: 40px;
+            box-sizing: border-box;
+        }
+        .form-button.data-bbx.data_b1 {
+            margin-right: 25px !important;
+        }
     }
     .name-class {
         display: flex;
