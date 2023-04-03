@@ -203,6 +203,9 @@ button {
         flex-direction: row;
         justify-content: space-between;
     }
+    .name-class.with-department {
+        justify-content: flex-start;
+    }
 
     .entry-wrapper {
         width: 100%;
@@ -365,7 +368,7 @@ button {
             margin-right: 25px;
         }
         .wrapper-f-inner-di:last-child {
-            width: 38%;
+            width: 81%;
             margin-left: 25px;
         }
 
@@ -418,6 +421,11 @@ button {
                 margin-top: 20px;
             }
         }
+
+        .name-class .entry-wrapper-2 + .wrapper-f-inner-di {
+            margin-top: 20px;
+        }
+
         .wrapper-f-div .wrapper-f-inner-div-2:last-child {
             margin-top: 20px;
         }

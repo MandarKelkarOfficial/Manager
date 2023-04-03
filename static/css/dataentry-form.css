@@ -162,6 +162,9 @@ button {
   flex-direction: row;
   justify-content: space-between;
 }
+.dataentry-e-form .name-class.with-department {
+  justify-content: flex-start;
+}
 .dataentry-e-form .entry-wrapper {
   width: 100%;
 }
@@ -302,7 +305,7 @@ button {
     margin-right: 25px;
   }
   .dataentry-e-form .wrapper-f-inner-di:last-child {
-    width: 38%;
+    width: 81%;
     margin-left: 25px;
   }
   .dataentry-e-form .name-class .entry-wrapper:first-child {
@@ -345,6 +348,9 @@ button {
     margin-top: 20px;
   }
   .dataentry-e-form .wrapper-f-div .wrapper-f-inner-di:last-child {
+    margin-top: 20px;
+  }
+  .dataentry-e-form .name-class .entry-wrapper-2 + .wrapper-f-inner-di {
     margin-top: 20px;
   }
   .dataentry-e-form .wrapper-f-div .wrapper-f-inner-div-2:last-child {
